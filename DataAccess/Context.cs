@@ -1,8 +1,11 @@
-﻿using Domain;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
+
+using Microsoft.EntityFrameworkCore;
+using Domain;
+using DataAccess.Configurations;
 
 namespace DataAccess
 {
@@ -19,11 +22,24 @@ namespace DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-6PNPMNE\SQLEXPRESS;Initial Catalog=info_news;Integrated Security=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new GenderConfiguration());
+            modelBuilder.ApplyConfiguration(new JournalistConfiguration());
+            modelBuilder.ApplyConfiguration(new LogConfiguration());
+            modelBuilder.ApplyConfiguration(new PictureConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new StoryConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new StoryJournalistConfiguration());
+
+
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+
 
         }
     }

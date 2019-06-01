@@ -689,7 +689,7 @@
   },
   "packageFolders": {
     "C:\\Users\\Mladen\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Program Files (x86)\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -701,7 +701,7 @@
       "outputPath": "C:\\Users\\Mladen\\source\\repos\\info_news\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\Mladen\\AppData\\Roaming\\NuGet\\NuGet.Config",

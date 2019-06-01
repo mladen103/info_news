@@ -6,3 +6,9 @@ C:\Users\Mladen\source\repos\info_news\DataAccess\obj\Debug\netcoreapp2.1\DataAc
 C:\Users\Mladen\source\repos\info_news\DataAccess\obj\Debug\netcoreapp2.1\DataAccess.csprojAssemblyReference.cache
 C:\Users\Mladen\source\repos\info_news\DataAccess\bin\Debug\netcoreapp2.1\DataAccess.runtimeconfig.json
 C:\Users\Mladen\source\repos\info_news\DataAccess\bin\Debug\netcoreapp2.1\DataAccess.runtimeconfig.dev.json
+C:\Users\Mladen\source\repos\info_news\DataAccess\bin\Debug\netcoreapp2.1\DataAccess.pdb
+C:\Users\Mladen\source\repos\info_news\DataAccess\bin\Debug\netcoreapp2.1\Domain.dll
+C:\Users\Mladen\source\repos\info_news\DataAccess\bin\Debug\netcoreapp2.1\Domain.pdb
+C:\Users\Mladen\source\repos\info_news\DataAccess\obj\Debug\netcoreapp2.1\DataAccess.csproj.CopyComplete
+C:\Users\Mladen\source\repos\info_news\DataAccess\obj\Debug\netcoreapp2.1\DataAccess.dll
+C:\Users\Mladen\source\repos\info_news\DataAccess\obj\Debug\netcoreapp2.1\DataAccess.pdb
