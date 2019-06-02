@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Searches
+namespace Application.DataTransferObjects
 {
-    public class StorySearch : BaseSearch
+    public class StoryDto : BaseDto
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime CreatedAt { get; set; }
-
-        public int CategoryId { get; set; }
     }
 }
