@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Text;
 
 using Application.Commands.Delete;
-using DataAccess;
 using Application.Exceptions;
-using Domain;
+using DataAccess;
 
 namespace EFCommands
 {
-    public class EfDeleteCategoryCommand : BaseEfCommand, IDelete
+    public class EfDeleteLogCommand : BaseEfCommand, IDelete
     {
-        public EfDeleteCategoryCommand(Context context) : base(context)
+        public EfDeleteLogCommand(Context context) : base(context)
         {
 
         }
 
         public void Execute(int request)
         {
-            var category = this.Context.Categories.Find(request);
+            var log = this.Context.Logs.Find(request);
 
-            if (category == null)
+            if (log == null)
                 throw new EntityNotFoundException();
 
-            this.Context.Categories.Remove(category);
+            log.IsDeleted = true;
             this.Context.SaveChanges();
         }
     }
