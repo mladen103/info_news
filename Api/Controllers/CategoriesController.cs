@@ -15,7 +15,6 @@ namespace Api.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-
         private IDelete deleteCategoryCommand;
         private IGetCategoryCommand getCategoryCommand;
 
@@ -69,7 +68,6 @@ namespace Api.Controllers
         public IActionResult Delete(int id)
         {
             this.deleteCategoryCommand.Execute(id);
-
             return NoContent();
         }
     }
