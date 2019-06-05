@@ -32,10 +32,22 @@ namespace Api.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                var category = this.getUserCommand.Execute(id);
+                return Ok(category);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST: api/Users

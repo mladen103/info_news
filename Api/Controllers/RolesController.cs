@@ -15,13 +15,13 @@ namespace Api.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private IDelete deleteGenderCommand;
-        private IGetGenderCommand getGenderCommand;
+        private IDelete deleteRoleCommand;
+        private IGetRoleCommand getRoleCommand;
 
-        public RolesController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand)
+        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand)
         {
-            this.deleteGenderCommand = deleteGenderCommand;
-            this.getGenderCommand = getGenderCommand;
+            this.deleteRoleCommand = deleteRoleCommand;
+            this.getRoleCommand = getRoleCommand;
         }
 
         // GET: api/Roles
@@ -32,10 +32,22 @@ namespace Api.Controllers
         }
 
         // GET: api/Roles/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                var category = this.getRoleCommand.Execute(id);
+                return Ok(category);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST: api/Roles
@@ -52,8 +64,21 @@ namespace Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                this.deleteRoleCommand.Execute(id);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
