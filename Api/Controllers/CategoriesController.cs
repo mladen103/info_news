@@ -67,8 +67,19 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            this.deleteCategoryCommand.Execute(id);
-            return NoContent();
+            try
+            {
+                this.deleteCategoryCommand.Execute(id);
+                return NoContent();
+            }
+            catch(EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
