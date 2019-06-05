@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Get;
 using Application.Exceptions;
+using Application.Commands;
+using Application.Searches;
 
 namespace Api.Controllers
 {
@@ -15,20 +17,31 @@ namespace Api.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private IDelete deleteCategoryCommand;
-        private IGetCategoryCommand getCategoryCommand;
-
-        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand)
+        private readonly IDelete deleteCategoryCommand;
+        private readonly IGetCategoryCommand getCategoryCommand;
+        private readonly IGetCategoriesCommand getCategoriesCommand;
+        
+        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand)
         {
             this.deleteCategoryCommand = deleteCategoryCommand;
             this.getCategoryCommand = getCategoryCommand;
+            this.getCategoriesCommand = getCategoriesCommand;
+
         }
 
         // GET: api/Categories
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] CategorySearch categorySearch)
         {
-            return Ok();
+            try
+            {
+                var categories = this.getCategoriesCommand.Execute(categorySearch);
+                return Ok(categories);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET: api/Categories/5

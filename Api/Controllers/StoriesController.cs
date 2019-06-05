@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Get;
 using Application.Exceptions;
+using Application.Commands;
+using Application.Searches;
 
 namespace Api.Controllers
 {
@@ -17,18 +19,29 @@ namespace Api.Controllers
     {
         private IDelete deleteStoryCommand;
         private IGetStoryCommand getStoryCommand;
+        private readonly IGetStoriesCommand getStoriesCommand;
 
-        public StoriesController(IDelete deleteStoryCommand, IGetStoryCommand getStoryCommand)
+        public StoriesController(IDelete deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand)
         {
             this.deleteStoryCommand = deleteStoryCommand;
             this.getStoryCommand = getStoryCommand;
+            this.getStoriesCommand = getStoriesCommand;
+
         }
 
         // GET: api/Stories
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery] StorySearch storySearch)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var stories = this.getStoriesCommand.Execute(storySearch);
+                return Ok(stories);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET: api/Stories/5

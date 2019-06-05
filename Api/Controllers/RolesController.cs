@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Get;
 using Application.Exceptions;
+using Application.Commands;
+using Application.Searches;
 
 namespace Api.Controllers
 {
@@ -17,18 +19,29 @@ namespace Api.Controllers
     {
         private IDelete deleteRoleCommand;
         private IGetRoleCommand getRoleCommand;
+        private readonly IGetRolesCommand getRolesCommand;
 
-        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand)
+        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand, IGetRolesCommand getRolesCommand)
         {
             this.deleteRoleCommand = deleteRoleCommand;
             this.getRoleCommand = getRoleCommand;
+            this.getRolesCommand = getRolesCommand;
+
         }
 
         // GET: api/Roles
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery] RoleSearch roleSearch)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var roles = this.getRolesCommand.Execute(roleSearch);
+                return Ok(roles);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET: api/Roles/5

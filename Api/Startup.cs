@@ -14,7 +14,15 @@ using Application.Commands.Delete;
 using DataAccess;
 using EFCommands;
 using Application.Commands.Get;
+
 using EFCommands.Categories;
+using EFCommands.Genders;
+using EFCommands.Journalists;
+using EFCommands.Logs;
+using EFCommands.Roles;
+using EFCommands.Stories;
+using EFCommands.Users;
+using Application.Commands;
 
 namespace Api
 {
@@ -34,6 +42,21 @@ namespace Api
             services.AddDbContext<Context>();
             services.AddTransient<IDelete, EfDeleteCategoryCommand>();
             services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
+            services.AddTransient<IGetGenderCommand, EfGetGenderCommand>();
+            services.AddTransient<IGetJournalistCommand, EfGetJournalistCommand>();
+            services.AddTransient<IGetLogCommand, EfGetLogCommand>();
+            services.AddTransient<IGetRoleCommand, EfGetRoleCommand>();
+            services.AddTransient<IGetStoryCommand, EfGetStoryCommand>();
+            services.AddTransient<IGetUserCommand, EfGetUserCommand>();
+
+            services.AddTransient<IGetCategoriesCommand, EfGetCategoriesCommand>();
+            services.AddTransient<IGetGendersCommand, EfGetGendersCommand>();
+            services.AddTransient<IGetJournalistsCommand, EfGetJournalistsCommand>();
+            services.AddTransient<IGetLogsCommand, EfGetLogsCommand>();
+            services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
+            services.AddTransient<IGetStoriesCommand, EfGetStoriesCommand>();
+            services.AddTransient<IGetUsersCommand, EfGetUsersCommand>();
+            
 
         }
 

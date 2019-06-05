@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Get;
 using Application.Exceptions;
+using Application.Commands;
+using Application.Searches;
 
 namespace Api.Controllers
 {
@@ -17,18 +19,29 @@ namespace Api.Controllers
     {
         private IDelete deleteJournalistCommand;
         private IGetJournalistCommand getJournalistCommand;
+        private readonly IGetJournalistsCommand getJournalistsCommand;
 
-        public JorunalistsController(IDelete deleteJournalistCommand, IGetJournalistCommand getJournalistCommand)
+        public JorunalistsController(IDelete deleteJournalistCommand, IGetJournalistCommand getJournalistCommand, IGetJournalistsCommand getJournalistsCommand)
         {
             this.deleteJournalistCommand = deleteJournalistCommand;
             this.getJournalistCommand = getJournalistCommand;
+            this.getJournalistsCommand = getJournalistsCommand;
+
         }
 
         // GET: api/Jorunalists
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery] JournalistSearch journalistSearch)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var journalists = this.getJournalistsCommand.Execute(journalistSearch);
+                return Ok(journalists);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET: api/Jorunalists/5

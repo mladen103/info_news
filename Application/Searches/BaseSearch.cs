@@ -6,6 +6,6 @@ namespace Application.Searches
 {
     public abstract class BaseSearch
     {
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

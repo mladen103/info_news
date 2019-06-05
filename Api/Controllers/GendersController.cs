@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Get;
 using Application.Exceptions;
+using Application.Commands;
+using Application.Searches;
 
 namespace Api.Controllers
 {
@@ -17,18 +19,29 @@ namespace Api.Controllers
     {
         private IDelete deleteGenderCommand;
         private IGetGenderCommand getGenderCommand;
+        private readonly IGetGendersCommand getGendersCommand;
 
-        public GendersController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand)
+        public GendersController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand, IGetGendersCommand getGendersCommand)
         {
             this.deleteGenderCommand = deleteGenderCommand;
             this.getGenderCommand = getGenderCommand;
+            this.getGendersCommand = getGendersCommand;
+
         }
 
         // GET: api/Genders
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery] GenderSearch genderSearch)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var genders = this.getGendersCommand.Execute(genderSearch);
+                return Ok(genders);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET: api/Genders/5

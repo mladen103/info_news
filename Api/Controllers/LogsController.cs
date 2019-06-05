@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Get;
 using Application.Exceptions;
+using Application.Commands;
+using Application.Searches;
 
 namespace Api.Controllers
 {
@@ -17,18 +19,29 @@ namespace Api.Controllers
     {
         private IDelete deleteLogCommand;
         private IGetLogCommand getLogCommand;
+        private readonly IGetLogsCommand getLogsCommand;
 
-        public LogsController(IDelete deleteLogCommand, IGetLogCommand getLogCommand)
+        public LogsController(IDelete deleteLogCommand, IGetLogCommand getLogCommand, IGetLogsCommand getLogsCommand)
         {
             this.deleteLogCommand = deleteLogCommand;
             this.getLogCommand = getLogCommand;
+            this.getLogsCommand = getLogsCommand;
+
         }
 
         // GET: api/Logs
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery] LogSearch logSearch)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var logs = this.getLogsCommand.Execute(logSearch);
+                return Ok(logs);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET: api/Logs/5

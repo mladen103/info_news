@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Get;
 using Application.Exceptions;
+using Application.Commands;
+using Application.Searches;
 
 namespace Api.Controllers
 {
@@ -17,18 +19,29 @@ namespace Api.Controllers
     {
         private IDelete deleteUserCommand;
         private IGetUserCommand getUserCommand;
+        private readonly IGetUsersCommand getUsersCommand;
 
-        public UsersController(IDelete deleteUserCommand, IGetUserCommand getUserCommand)
+        public UsersController(IDelete deleteUserCommand, IGetUserCommand getUserCommand, IGetUsersCommand getUsersCommand)
         {
             this.deleteUserCommand = deleteUserCommand;
             this.getUserCommand = getUserCommand;
+            this.getUsersCommand = getUsersCommand;
+
         }
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery] UserSearch userSearch)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var users = this.getUsersCommand.Execute(userSearch);
+                return Ok(users);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET: api/Users/5
