@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using Application.Commands.Delete;
+using Application.Commands.Get;
+using Application.Exceptions;
 
 namespace Api.Controllers
 {
@@ -15,10 +17,12 @@ namespace Api.Controllers
     {
 
         private IDelete deleteCategoryCommand;
+        private IGetCategoryCommand getCategoryCommand;
 
-        public CategoriesController(IDelete deleteCategoryCommand)
+        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand)
         {
             this.deleteCategoryCommand = deleteCategoryCommand;
+            this.getCategoryCommand = getCategoryCommand;
         }
 
         // GET: api/Categories
@@ -29,10 +33,23 @@ namespace Api.Controllers
         }
 
         // GET: api/Categories/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public ActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                var category = this.getCategoryCommand.Execute(id);
+                return Ok(category);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return NotFound();
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500);
+            }
+
         }
 
         // POST: api/Categories

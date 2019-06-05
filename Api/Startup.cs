@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using Application.Commands.Delete;
 using DataAccess;
 using EFCommands;
+using Application.Commands.Get;
+using EFCommands.Categories;
 
 namespace Api
 {
@@ -31,6 +33,8 @@ namespace Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<Context>();
             services.AddTransient<IDelete, EfDeleteCategoryCommand>();
+            services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
