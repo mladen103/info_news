@@ -9,6 +9,7 @@ using Application.Commands.Delete;
 using Application.Commands.Logs;
 using Application.Exceptions;
 using Application.Searches;
+using Application.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -16,16 +17,17 @@ namespace Api.Controllers
     [ApiController]
     public class LogsController : ControllerBase
     {
-        private IDelete deleteLogCommand;
-        private IGetLogCommand getLogCommand;
+        private readonly IDelete deleteLogCommand;
+        private readonly IGetLogCommand getLogCommand;
         private readonly IGetLogsCommand getLogsCommand;
+        private readonly IInsertLogCommand insertLogCommand;
 
-        public LogsController(IDelete deleteLogCommand, IGetLogCommand getLogCommand, IGetLogsCommand getLogsCommand)
+        public LogsController(IDelete deleteLogCommand, IGetLogCommand getLogCommand, IGetLogsCommand getLogsCommand, IInsertLogCommand insertLogCommand)
         {
             this.deleteLogCommand = deleteLogCommand;
             this.getLogCommand = getLogCommand;
             this.getLogsCommand = getLogsCommand;
-
+            this.insertLogCommand = insertLogCommand;
         }
 
         // GET: api/Logs
@@ -64,8 +66,21 @@ namespace Api.Controllers
 
         // POST: api/Logs
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] LogDto value)
         {
+            try
+            {
+                this.insertLogCommand.Execute(value);
+                return StatusCode(201);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/Logs/5

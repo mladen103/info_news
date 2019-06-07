@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Delete;
 using Application.Commands.Users;
 using Application.Exceptions;
-using Application.Commands;
 using Application.Searches;
+using Application.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -17,16 +17,17 @@ namespace Api.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IDelete deleteUserCommand;
-        private IGetUserCommand getUserCommand;
+        private readonly IDelete deleteUserCommand;
+        private readonly IGetUserCommand getUserCommand;
         private readonly IGetUsersCommand getUsersCommand;
+        private readonly IInsertUserCommand insertUserCommand;
 
-        public UsersController(IDelete deleteUserCommand, IGetUserCommand getUserCommand, IGetUsersCommand getUsersCommand)
+        public UsersController(IDelete deleteUserCommand, IGetUserCommand getUserCommand, IGetUsersCommand getUsersCommand, IInsertUserCommand insertUserCommand)
         {
             this.deleteUserCommand = deleteUserCommand;
             this.getUserCommand = getUserCommand;
             this.getUsersCommand = getUsersCommand;
-
+            this.insertUserCommand = insertUserCommand;
         }
 
         // GET: api/Users
@@ -65,8 +66,21 @@ namespace Api.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] UserInsertDto value)
         {
+            try
+            {
+                this.insertUserCommand.Execute(value);
+                return StatusCode(201);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/Users/5

@@ -9,6 +9,7 @@ using Application.Commands.Delete;
 using Application.Commands.Stories;
 using Application.Exceptions;
 using Application.Searches;
+using Application.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -16,16 +17,17 @@ namespace Api.Controllers
     [ApiController]
     public class StoriesController : ControllerBase
     {
-        private IDelete deleteStoryCommand;
-        private IGetStoryCommand getStoryCommand;
+        private readonly IDelete deleteStoryCommand;
+        private readonly IGetStoryCommand getStoryCommand;
         private readonly IGetStoriesCommand getStoriesCommand;
-
-        public StoriesController(IDelete deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand)
+        private readonly IInsertStoryCommand insertStoryCommand;
+        
+        public StoriesController(IDelete deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand, IInsertStoryCommand insertStoryCommand)
         {
             this.deleteStoryCommand = deleteStoryCommand;
             this.getStoryCommand = getStoryCommand;
             this.getStoriesCommand = getStoriesCommand;
-
+            this.insertStoryCommand = insertStoryCommand;
         }
 
         // GET: api/Stories

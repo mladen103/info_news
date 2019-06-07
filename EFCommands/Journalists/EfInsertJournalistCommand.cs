@@ -2,9 +2,32 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Application.Commands.Journalists;
+using Application.DataTransferObjects;
+using DataAccess;
+using Domain;
+using System.Linq;
+using Application.Exceptions;
+
 namespace EFCommands.Journalists
 {
-    public class EfInsertJournalistCommand
+    public class EfInsertJournalistCommand : BaseEfCommand, IInsertJournalistCommand
     {
+        public EfInsertJournalistCommand(Context context) : base(context)
+        {
+        }
+
+        public void Execute(JournalistDto request)
+        {
+            var journalists = this.Context.Journalists;
+            
+            journalists.Add(new Journalist
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName
+            });
+
+            this.Context.SaveChanges();
+        }
     }
 }

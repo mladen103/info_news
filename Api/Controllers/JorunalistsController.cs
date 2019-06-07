@@ -9,6 +9,7 @@ using Application.Commands.Delete;
 using Application.Commands.Journalists;
 using Application.Exceptions;
 using Application.Searches;
+using Application.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -16,16 +17,17 @@ namespace Api.Controllers
     [ApiController]
     public class JorunalistsController : ControllerBase
     {
-        private IDelete deleteJournalistCommand;
-        private IGetJournalistCommand getJournalistCommand;
+        private readonly IDelete deleteJournalistCommand;
+        private readonly IGetJournalistCommand getJournalistCommand;
         private readonly IGetJournalistsCommand getJournalistsCommand;
+        private readonly IInsertJournalistCommand insertJournalistCommand;
 
-        public JorunalistsController(IDelete deleteJournalistCommand, IGetJournalistCommand getJournalistCommand, IGetJournalistsCommand getJournalistsCommand)
+        public JorunalistsController(IDelete deleteJournalistCommand, IGetJournalistCommand getJournalistCommand, IGetJournalistsCommand getJournalistsCommand, IInsertJournalistCommand insertJournalistCommand)
         {
             this.deleteJournalistCommand = deleteJournalistCommand;
             this.getJournalistCommand = getJournalistCommand;
             this.getJournalistsCommand = getJournalistsCommand;
-
+            this.insertJournalistCommand = insertJournalistCommand;
         }
 
         // GET: api/Jorunalists
@@ -64,8 +66,21 @@ namespace Api.Controllers
 
         // POST: api/Jorunalists
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] JournalistDto value)
         {
+            try
+            {
+                this.insertJournalistCommand.Execute(value);
+                return StatusCode(201);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/Jorunalists/5

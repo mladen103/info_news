@@ -9,6 +9,7 @@ using Application.Commands.Delete;
 using Application.Commands.Roles;
 using Application.Exceptions;
 using Application.Searches;
+using Application.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -16,16 +17,17 @@ namespace Api.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private IDelete deleteRoleCommand;
-        private IGetRoleCommand getRoleCommand;
+        private readonly IDelete deleteRoleCommand;
+        private readonly IGetRoleCommand getRoleCommand;
         private readonly IGetRolesCommand getRolesCommand;
+        private readonly IInsertRoleCommand insertRoleCommand;
 
-        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand, IGetRolesCommand getRolesCommand)
+        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand, IGetRolesCommand getRolesCommand, IInsertRoleCommand insertRoleCommand)
         {
             this.deleteRoleCommand = deleteRoleCommand;
             this.getRoleCommand = getRoleCommand;
             this.getRolesCommand = getRolesCommand;
-
+            this.insertRoleCommand = insertRoleCommand;
         }
 
         // GET: api/Roles
@@ -64,8 +66,21 @@ namespace Api.Controllers
 
         // POST: api/Roles
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] RoleDto value)
         {
+            try
+            {
+                this.insertRoleCommand.Execute(value);
+                return StatusCode(201);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/Roles/5

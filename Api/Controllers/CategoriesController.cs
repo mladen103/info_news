@@ -21,15 +21,13 @@ namespace Api.Controllers
         private readonly IGetCategoryCommand getCategoryCommand;
         private readonly IGetCategoriesCommand getCategoriesCommand;
         private readonly IInsertCategoryCommand insertCategoryCommand;
-
-
+        
         public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand, IInsertCategoryCommand insertCategoryCommand)
         {
             this.deleteCategoryCommand = deleteCategoryCommand;
             this.getCategoryCommand = getCategoryCommand;
             this.getCategoriesCommand = getCategoriesCommand;
             this.insertCategoryCommand = insertCategoryCommand;
-            
         }
 
         // GET: api/Categories
@@ -75,7 +73,6 @@ namespace Api.Controllers
             {
                 this.insertCategoryCommand.Execute(value);
                 return StatusCode(201);
-
             }
             catch (EntityAlreadyExistsException)
             {

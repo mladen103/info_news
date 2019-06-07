@@ -9,6 +9,7 @@ using Application.Commands.Delete;
 using Application.Commands.Genders;
 using Application.Exceptions;
 using Application.Searches;
+using Application.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -16,16 +17,17 @@ namespace Api.Controllers
     [ApiController]
     public class GendersController : ControllerBase
     {
-        private IDelete deleteGenderCommand;
-        private IGetGenderCommand getGenderCommand;
+        private readonly IDelete deleteGenderCommand;
+        private readonly IGetGenderCommand getGenderCommand;
         private readonly IGetGendersCommand getGendersCommand;
+        private readonly IInsertGenderCommand insertGenderCommand;
 
-        public GendersController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand, IGetGendersCommand getGendersCommand)
+        public GendersController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand, IGetGendersCommand getGendersCommand, IInsertGenderCommand insertGenderCommand)
         {
             this.deleteGenderCommand = deleteGenderCommand;
             this.getGenderCommand = getGenderCommand;
             this.getGendersCommand = getGendersCommand;
-
+            this.insertGenderCommand = insertGenderCommand;
         }
 
         // GET: api/Genders
@@ -64,8 +66,21 @@ namespace Api.Controllers
 
         // POST: api/Genders
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] GenderDto value)
         {
+            try
+            {
+                this.insertGenderCommand.Execute(value);
+                return StatusCode(201);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/Genders/5
