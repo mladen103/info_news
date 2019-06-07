@@ -4,10 +4,11 @@ using System.Text;
 
 using Application.DataTransferObjects;
 using Application.Interfaces;
+using Application.Searches;
 
-namespace Application.Commands.Get
+namespace Application.Commands.Genders
 {
-    public interface IGetRoleCommand : ICommand<int, RoleDto>
+    public interface IGetGendersCommand : ICommand<GenderSearch, IEnumerable<GenderDto>>
     {
     }
 }

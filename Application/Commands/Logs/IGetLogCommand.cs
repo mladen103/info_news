@@ -5,9 +5,9 @@ using System.Text;
 using Application.DataTransferObjects;
 using Application.Interfaces;
 
-namespace Application.Commands.Get
+namespace Application.Commands.Logs
 {
-    public interface IGetUserCommand : ICommand<int, UserGetDto>
+    public interface IGetLogCommand : ICommand<int, LogDto>
     {
     }
 }

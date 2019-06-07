@@ -13,7 +13,14 @@ using Microsoft.Extensions.Options;
 using Application.Commands.Delete;
 using DataAccess;
 using EFCommands;
-using Application.Commands.Get;
+
+using Application.Commands.Categories;
+using Application.Commands.Genders;
+using Application.Commands.Journalists;
+using Application.Commands.Logs;
+using Application.Commands.Roles;
+using Application.Commands.Stories;
+using Application.Commands.Users;
 
 using EFCommands.Categories;
 using EFCommands.Genders;
@@ -22,7 +29,6 @@ using EFCommands.Logs;
 using EFCommands.Roles;
 using EFCommands.Stories;
 using EFCommands.Users;
-using Application.Commands;
 
 namespace Api
 {
@@ -56,6 +62,8 @@ namespace Api
             services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
             services.AddTransient<IGetStoriesCommand, EfGetStoriesCommand>();
             services.AddTransient<IGetUsersCommand, EfGetUsersCommand>();
+
+            services.AddTransient<IInsertCategoryCommand, EfInsertCategoryCommand>();
             
 
         }

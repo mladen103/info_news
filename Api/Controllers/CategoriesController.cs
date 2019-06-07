@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using Application.Commands.Delete;
-using Application.Commands.Get;
+using Application.Commands.Categories;
 using Application.Exceptions;
-using Application.Commands;
 using Application.Searches;
+using Application.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -20,13 +20,16 @@ namespace Api.Controllers
         private readonly IDelete deleteCategoryCommand;
         private readonly IGetCategoryCommand getCategoryCommand;
         private readonly IGetCategoriesCommand getCategoriesCommand;
-        
-        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand)
+        private readonly IInsertCategoryCommand insertCategoryCommand;
+
+
+        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand, IInsertCategoryCommand insertCategoryCommand)
         {
             this.deleteCategoryCommand = deleteCategoryCommand;
             this.getCategoryCommand = getCategoryCommand;
             this.getCategoriesCommand = getCategoriesCommand;
-
+            this.insertCategoryCommand = insertCategoryCommand;
+            
         }
 
         // GET: api/Categories
@@ -38,7 +41,7 @@ namespace Api.Controllers
                 var categories = this.getCategoriesCommand.Execute(categorySearch);
                 return Ok(categories);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(500);
             }
@@ -53,11 +56,11 @@ namespace Api.Controllers
                 var category = this.getCategoryCommand.Execute(id);
                 return Ok(category);
             }
-            catch (EntityNotFoundException e)
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return StatusCode(500);
             }
@@ -66,8 +69,22 @@ namespace Api.Controllers
 
         // POST: api/Categories
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] CategoryDto value)
         {
+            try
+            {
+                this.insertCategoryCommand.Execute(value);
+                return StatusCode(201);
+
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch(Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/Categories/5

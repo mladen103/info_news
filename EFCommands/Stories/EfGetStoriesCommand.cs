@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-using Application.Commands;
+using Application.Commands.Stories;
 using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
@@ -16,27 +16,35 @@ namespace EFCommands.Stories
         {
         }
 
-        public IEnumerable<StoryDto> Execute(CategorySearch request)
+        public IEnumerable<StoryDto> Execute(StorySearch request)
         {
             var query = this.Context.Stories.AsQueryable();
 
             if (request.Name != null)
             {
                 query = query.Where(
-                    c => c.Name.ToLower()
+                    s => s.Name.ToLower()
                     .Contains(request.Name.ToLower()));
             }
 
             if (request.IsActive != null)
             {
                 query = query.Where(
-                    c => c.IsActive == request.IsActive);
+                    s => s.IsActive == request.IsActive);
             }
 
-            return query.Select(c => new CategoryDto
+            if(request.Description != null)
             {
-                Id = c.Id,
-                Name = c.Name
+                query = query.Where(
+                    s => s.Description.ToLower()
+                    .Contains(request.Description.ToLower()));
+            }
+            
+            return query.Select(s => new StoryDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description
             });
         }
     }

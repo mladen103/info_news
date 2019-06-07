@@ -5,9 +5,9 @@ using System.Text;
 using Application.DataTransferObjects;
 using Application.Interfaces;
 
-namespace Application.Commands.Get
+namespace Application.Commands.Journalists
 {
-    public interface IGetJournalistCommand : ICommand<int, JournalistDto>
+    public interface IInsertJournalistCommand : ICommand<JournalistDto>
     {
     }
 }

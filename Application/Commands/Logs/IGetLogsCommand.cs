@@ -6,9 +6,9 @@ using Application.DataTransferObjects;
 using Application.Interfaces;
 using Application.Searches;
 
-namespace Application.Commands
+namespace Application.Commands.Logs
 {
-    public interface IGetCategoriesCommand : ICommand<CategorySearch, IEnumerable<CategoryDto>>
+    public interface IGetLogsCommand : ICommand<LogSearch, IEnumerable<LogDto>>
     {
     }
 }

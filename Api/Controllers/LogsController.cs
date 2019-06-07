@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using Application.Commands.Delete;
-using Application.Commands.Get;
+using Application.Commands.Logs;
 using Application.Exceptions;
-using Application.Commands;
 using Application.Searches;
 
 namespace Api.Controllers
@@ -38,7 +37,7 @@ namespace Api.Controllers
                 var logs = this.getLogsCommand.Execute(logSearch);
                 return Ok(logs);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(500);
             }
@@ -53,11 +52,11 @@ namespace Api.Controllers
                 var category = this.getLogCommand.Execute(id);
                 return Ok(category);
             }
-            catch (EntityNotFoundException e)
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(500);
             }

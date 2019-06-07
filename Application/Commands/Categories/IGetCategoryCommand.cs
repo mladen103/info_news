@@ -4,11 +4,10 @@ using System.Text;
 
 using Application.DataTransferObjects;
 using Application.Interfaces;
-using Application.Searches;
 
-namespace Application.Commands
+namespace Application.Commands.Categories
 {
-    public interface IGetRolesCommand : ICommand<RoleSearch, IEnumerable<RoleDto>>
+    public interface IGetCategoryCommand : ICommand<int, CategoryDto>
     {
     }
 }

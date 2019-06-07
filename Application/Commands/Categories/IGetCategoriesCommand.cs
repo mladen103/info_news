@@ -6,9 +6,9 @@ using Application.DataTransferObjects;
 using Application.Interfaces;
 using Application.Searches;
 
-namespace Application.Commands
+namespace Application.Commands.Categories
 {
-    public interface IGetJournalistsCommand : ICommand<JournalistSearch, IEnumerable<JournalistDto>>
+    public interface IGetCategoriesCommand : ICommand<CategorySearch, IEnumerable<CategoryDto>>
     {
     }
 }

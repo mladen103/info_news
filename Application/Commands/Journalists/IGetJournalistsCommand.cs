@@ -6,9 +6,9 @@ using Application.DataTransferObjects;
 using Application.Interfaces;
 using Application.Searches;
 
-namespace Application.Commands
+namespace Application.Commands.Journalists
 {
-    public interface IGetLogsCommand : ICommand<LogSearch, IEnumerable<LogDto>>
+    public interface IGetJournalistsCommand : ICommand<JournalistSearch, IEnumerable<JournalistDto>>
     {
     }
 }

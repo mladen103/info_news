@@ -5,9 +5,10 @@ using System.Text;
 using Application.DataTransferObjects;
 using Application.Interfaces;
 
-namespace Application.Commands.Get
+namespace Application.Commands.Categories
 {
-    public interface IGetCategoryCommand : ICommand<int, CategoryDto>
+    public interface IInsertCategoryCommand : ICommand<CategoryDto>
     {
+
     }
 }

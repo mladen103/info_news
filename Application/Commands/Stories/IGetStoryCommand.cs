@@ -5,9 +5,9 @@ using System.Text;
 using Application.DataTransferObjects;
 using Application.Interfaces;
 
-namespace Application.Commands.Get
+namespace Application.Commands.Stories
 {
-    public interface IGetGenderCommand : ICommand<int, GenderDto>
+    public interface IGetStoryCommand : ICommand<int, StoryDto>
     {
     }
 }

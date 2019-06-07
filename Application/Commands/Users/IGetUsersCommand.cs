@@ -4,10 +4,11 @@ using System.Text;
 
 using Application.DataTransferObjects;
 using Application.Interfaces;
+using Application.Searches;
 
-namespace Application.Commands.Get
+namespace Application.Commands.Users
 {
-    public interface IGetStoryCommand : ICommand<int, StoryDto>
+    public interface IGetUsersCommand : ICommand<UserSearch, IEnumerable<UserGetDto>>
     {
     }
 }

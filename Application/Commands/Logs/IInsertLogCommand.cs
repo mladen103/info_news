@@ -4,11 +4,10 @@ using System.Text;
 
 using Application.DataTransferObjects;
 using Application.Interfaces;
-using Application.Searches;
 
-namespace Application.Commands
+namespace Application.Commands.Logs
 {
-    public interface IGetUsersCommand : ICommand<UserSearch, IEnumerable<UserGetDto>>
+    public interface IInsertLogCommand : ICommand<LogDto>
     {
     }
 }
