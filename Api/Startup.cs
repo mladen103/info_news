@@ -72,6 +72,13 @@ namespace Api
             services.AddTransient<IInsertUserCommand, EfInsertUserCommand>();
 
             services.AddTransient<IUpdateCategoryCommand, EfUpdateCategoryCommand>();
+            services.AddTransient<IUpdateGenderCommand, EfUpdateGenderCommand>();
+            services.AddTransient<IUpdateJournalistCommand, EfUpdateJournalistCommand>();
+            services.AddTransient<IUpdateLogCommand, EfUpdateLogCommand>();
+            services.AddTransient<IUpdateRoleCommand, EfUpdateRoleCommand>();
+            services.AddTransient<IUpdateStoryCommand, EfUpdateStoryCommand>();
+            services.AddTransient<IUpdateUserCommand, EfUpdateUserCommand>();
+
 
 
         }

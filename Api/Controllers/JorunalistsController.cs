@@ -21,13 +21,15 @@ namespace Api.Controllers
         private readonly IGetJournalistCommand getJournalistCommand;
         private readonly IGetJournalistsCommand getJournalistsCommand;
         private readonly IInsertJournalistCommand insertJournalistCommand;
+        private readonly IUpdateJournalistCommand updateJournalistCommand;
 
-        public JorunalistsController(IDelete deleteJournalistCommand, IGetJournalistCommand getJournalistCommand, IGetJournalistsCommand getJournalistsCommand, IInsertJournalistCommand insertJournalistCommand)
+        public JorunalistsController(IDelete deleteJournalistCommand, IGetJournalistCommand getJournalistCommand, IGetJournalistsCommand getJournalistsCommand, IInsertJournalistCommand insertJournalistCommand, IUpdateJournalistCommand updateJournalistCommand)
         {
             this.deleteJournalistCommand = deleteJournalistCommand;
             this.getJournalistCommand = getJournalistCommand;
             this.getJournalistsCommand = getJournalistsCommand;
             this.insertJournalistCommand = insertJournalistCommand;
+            this.updateJournalistCommand = updateJournalistCommand;
         }
 
         // GET: api/Jorunalists
@@ -85,8 +87,26 @@ namespace Api.Controllers
 
         // PUT: api/Jorunalists/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] JournalistDto value)
         {
+            try
+            {
+                value.Id = id;
+                this.updateJournalistCommand.Execute(value);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5

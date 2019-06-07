@@ -21,13 +21,15 @@ namespace Api.Controllers
         private readonly IGetRoleCommand getRoleCommand;
         private readonly IGetRolesCommand getRolesCommand;
         private readonly IInsertRoleCommand insertRoleCommand;
+        private readonly IUpdateRoleCommand updateRoleCommand;
 
-        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand, IGetRolesCommand getRolesCommand, IInsertRoleCommand insertRoleCommand)
+        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand, IGetRolesCommand getRolesCommand, IInsertRoleCommand insertRoleCommand, IUpdateRoleCommand updateRoleCommand)
         {
             this.deleteRoleCommand = deleteRoleCommand;
             this.getRoleCommand = getRoleCommand;
             this.getRolesCommand = getRolesCommand;
             this.insertRoleCommand = insertRoleCommand;
+            this.updateRoleCommand = updateRoleCommand;
         }
 
         // GET: api/Roles
@@ -85,8 +87,26 @@ namespace Api.Controllers
 
         // PUT: api/Roles/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] RoleDto value)
         {
+            try
+            {
+                value.Id = id;
+                this.updateRoleCommand.Execute(value);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5

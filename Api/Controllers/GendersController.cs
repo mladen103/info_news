@@ -21,13 +21,15 @@ namespace Api.Controllers
         private readonly IGetGenderCommand getGenderCommand;
         private readonly IGetGendersCommand getGendersCommand;
         private readonly IInsertGenderCommand insertGenderCommand;
+        private readonly IUpdateGenderCommand updateGenderCommand;
 
-        public GendersController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand, IGetGendersCommand getGendersCommand, IInsertGenderCommand insertGenderCommand)
+        public GendersController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand, IGetGendersCommand getGendersCommand, IInsertGenderCommand insertGenderCommand, IUpdateGenderCommand updateGenderCommand)
         {
             this.deleteGenderCommand = deleteGenderCommand;
             this.getGenderCommand = getGenderCommand;
             this.getGendersCommand = getGendersCommand;
             this.insertGenderCommand = insertGenderCommand;
+            this.updateGenderCommand = updateGenderCommand;
         }
 
         // GET: api/Genders
@@ -85,8 +87,26 @@ namespace Api.Controllers
 
         // PUT: api/Genders/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] GenderDto value)
         {
+            try
+            {
+                value.Id = id;
+                this.updateGenderCommand.Execute(value);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5

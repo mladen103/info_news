@@ -21,13 +21,15 @@ namespace Api.Controllers
         private readonly IGetLogCommand getLogCommand;
         private readonly IGetLogsCommand getLogsCommand;
         private readonly IInsertLogCommand insertLogCommand;
+        private readonly IUpdateLogCommand updateLogCommand;
 
-        public LogsController(IDelete deleteLogCommand, IGetLogCommand getLogCommand, IGetLogsCommand getLogsCommand, IInsertLogCommand insertLogCommand)
+        public LogsController(IDelete deleteLogCommand, IGetLogCommand getLogCommand, IGetLogsCommand getLogsCommand, IInsertLogCommand insertLogCommand, IUpdateLogCommand updateLogCommand)
         {
             this.deleteLogCommand = deleteLogCommand;
             this.getLogCommand = getLogCommand;
             this.getLogsCommand = getLogsCommand;
             this.insertLogCommand = insertLogCommand;
+            this.updateLogCommand = updateLogCommand;
         }
 
         // GET: api/Logs
@@ -85,8 +87,26 @@ namespace Api.Controllers
 
         // PUT: api/Logs/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] LogDto value)
         {
+            try
+            {
+                value.Id = id;
+                this.updateLogCommand.Execute(value);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5

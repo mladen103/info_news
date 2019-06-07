@@ -21,13 +21,15 @@ namespace Api.Controllers
         private readonly IGetUserCommand getUserCommand;
         private readonly IGetUsersCommand getUsersCommand;
         private readonly IInsertUserCommand insertUserCommand;
+        private readonly IUpdateUserCommand updateUserCommand;
 
-        public UsersController(IDelete deleteUserCommand, IGetUserCommand getUserCommand, IGetUsersCommand getUsersCommand, IInsertUserCommand insertUserCommand)
+        public UsersController(IDelete deleteUserCommand, IGetUserCommand getUserCommand, IGetUsersCommand getUsersCommand, IInsertUserCommand insertUserCommand, IUpdateUserCommand updateUserCommand)
         {
             this.deleteUserCommand = deleteUserCommand;
             this.getUserCommand = getUserCommand;
             this.getUsersCommand = getUsersCommand;
             this.insertUserCommand = insertUserCommand;
+            this.updateUserCommand = updateUserCommand;
         }
 
         // GET: api/Users
@@ -85,8 +87,26 @@ namespace Api.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] UserDto value)
         {
+            try
+            {
+                value.Id = id;
+                this.updateUserCommand.Execute(value);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5

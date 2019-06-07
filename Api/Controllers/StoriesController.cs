@@ -21,13 +21,15 @@ namespace Api.Controllers
         private readonly IGetStoryCommand getStoryCommand;
         private readonly IGetStoriesCommand getStoriesCommand;
         private readonly IInsertStoryCommand insertStoryCommand;
-        
-        public StoriesController(IDelete deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand, IInsertStoryCommand insertStoryCommand)
+        private readonly IUpdateStoryCommand updateStoryCommand;
+
+        public StoriesController(IDelete deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand, IInsertStoryCommand insertStoryCommand, IUpdateStoryCommand updateStoryCommand)
         {
             this.deleteStoryCommand = deleteStoryCommand;
             this.getStoryCommand = getStoryCommand;
             this.getStoriesCommand = getStoriesCommand;
             this.insertStoryCommand = insertStoryCommand;
+            this.updateStoryCommand = updateStoryCommand;
         }
 
         // GET: api/Stories
@@ -72,8 +74,26 @@ namespace Api.Controllers
 
         // PUT: api/Stories/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] StoryDto value)
         {
+            try
+            {
+                value.Id = id;
+                this.updateStoryCommand.Execute(value);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
