@@ -21,13 +21,15 @@ namespace Api.Controllers
         private readonly IGetCategoryCommand getCategoryCommand;
         private readonly IGetCategoriesCommand getCategoriesCommand;
         private readonly IInsertCategoryCommand insertCategoryCommand;
-        
-        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand, IInsertCategoryCommand insertCategoryCommand)
+        private readonly IUpdateCategoryCommand updateCategoryCommand;
+
+        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand, IInsertCategoryCommand insertCategoryCommand, IUpdateCategoryCommand updateCategoryCommand)
         {
             this.deleteCategoryCommand = deleteCategoryCommand;
             this.getCategoryCommand = getCategoryCommand;
             this.getCategoriesCommand = getCategoriesCommand;
             this.insertCategoryCommand = insertCategoryCommand;
+            this.updateCategoryCommand = updateCategoryCommand;
         }
 
         // GET: api/Categories
@@ -86,8 +88,26 @@ namespace Api.Controllers
 
         // PUT: api/Categories/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] CategoryDto value)
         {
+            try
+            {
+                value.Id = id;
+                this.updateCategoryCommand.Execute(value);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
