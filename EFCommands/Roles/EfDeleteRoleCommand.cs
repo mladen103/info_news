@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Application.Commands.Delete;
+using Application.Commands.Roles;
 using Application.Exceptions;
 using DataAccess;
 
 namespace EFCommands
 {
-    public class EfDeleteRoleCommand : BaseEfCommand, IDelete
+    public class EfDeleteRoleCommand : BaseEfCommand, IDeleteRoleCommand
     {
         public EfDeleteRoleCommand(Context context) : base(context)
         {

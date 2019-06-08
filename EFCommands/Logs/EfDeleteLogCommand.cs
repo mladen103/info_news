@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Application.Commands.Delete;
+using Application.Commands.Logs;
 using Application.Exceptions;
 using DataAccess;
 
 namespace EFCommands
 {
-    public class EfDeleteLogCommand : BaseEfCommand, IDelete
+    public class EfDeleteLogCommand : BaseEfCommand, IDeleteLogCommand
     {
         public EfDeleteLogCommand(Context context) : base(context)
         {

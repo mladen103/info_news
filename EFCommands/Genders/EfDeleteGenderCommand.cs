@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Application.Commands.Delete;
+using Application.Commands.Genders;
 using Application.Exceptions;
 using DataAccess;
 
 namespace EFCommands
 {
-    public class EfDeleteGenderCommand : BaseEfCommand, IDelete
+    public class EfDeleteGenderCommand : BaseEfCommand, IDeleteGenderCommand
     {
         public EfDeleteGenderCommand(Context context) : base(context)
         {

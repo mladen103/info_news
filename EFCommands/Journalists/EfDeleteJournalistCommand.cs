@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Application.Commands.Delete;
+using Application.Commands.Journalists;
 using DataAccess;
 using Application.Exceptions;
 using Domain;
 
 namespace EFCommands
 {
-    public class EfDeleteJournalistCommand : BaseEfCommand, IDelete
+    public class EfDeleteJournalistCommand : BaseEfCommand, IDeleteJournalistCommand
     {
         public EfDeleteJournalistCommand(Context context) : base(context)
         {

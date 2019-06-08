@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Application.Commands.Delete;
+using Application.Commands.Stories;
 using Application.Exceptions;
 using DataAccess;
 
 namespace EFCommands
 {
-    public class EfDeleteStoryCommand : BaseEfCommand, IDelete
+    public class EfDeleteStoryCommand : BaseEfCommand, IDeleteStoryCommand
     {
         public EfDeleteStoryCommand(Context context) : base(context)
         {

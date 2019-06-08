@@ -46,7 +46,9 @@ namespace Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<Context>();
-            services.AddTransient<IDelete, EfDeleteCategoryCommand>();
+            services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
+            services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
+            
             services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
             services.AddTransient<IGetGenderCommand, EfGetGenderCommand>();
             services.AddTransient<IGetJournalistCommand, EfGetJournalistCommand>();

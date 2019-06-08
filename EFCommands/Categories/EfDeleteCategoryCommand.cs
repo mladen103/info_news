@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Application.Commands.Delete;
+using Application.Commands.Categories;
 using DataAccess;
 using Application.Exceptions;
 using Domain;
 
 namespace EFCommands
 {
-    public class EfDeleteCategoryCommand : BaseEfCommand, IDelete
+    public class EfDeleteCategoryCommand : BaseEfCommand, IDeleteCategoryCommand
     {
         public EfDeleteCategoryCommand(Context context) : base(context)
         {
