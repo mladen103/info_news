@@ -46,8 +46,14 @@ namespace Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<Context>();
+
             services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
-            services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
+            services.AddTransient<IDeleteGenderCommand, EfDeleteGenderCommand>();
+            services.AddTransient<IDeleteJournalistCommand, EfDeleteJournalistCommand>();
+            services.AddTransient<IDeleteLogCommand, EfDeleteLogCommand>();
+            services.AddTransient<IDeleteRoleCommand, EfDeleteRoleCommand>();
+            services.AddTransient<IDeleteStoryCommand, EfDeleteStoryCommand>();
+            services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
             
             services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
             services.AddTransient<IGetGenderCommand, EfGetGenderCommand>();
@@ -80,9 +86,7 @@ namespace Api
             services.AddTransient<IUpdateRoleCommand, EfUpdateRoleCommand>();
             services.AddTransient<IUpdateStoryCommand, EfUpdateStoryCommand>();
             services.AddTransient<IUpdateUserCommand, EfUpdateUserCommand>();
-
-
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

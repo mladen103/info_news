@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Application.Commands.Delete;
 using Application.Commands.Roles;
 using Application.Exceptions;
 using Application.Searches;
@@ -17,13 +16,13 @@ namespace Api.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private readonly IDelete deleteRoleCommand;
+        private readonly IDeleteRoleCommand deleteRoleCommand;
         private readonly IGetRoleCommand getRoleCommand;
         private readonly IGetRolesCommand getRolesCommand;
         private readonly IInsertRoleCommand insertRoleCommand;
         private readonly IUpdateRoleCommand updateRoleCommand;
 
-        public RolesController(IDelete deleteRoleCommand, IGetRoleCommand getRoleCommand, IGetRolesCommand getRolesCommand, IInsertRoleCommand insertRoleCommand, IUpdateRoleCommand updateRoleCommand)
+        public RolesController(IDeleteRoleCommand deleteRoleCommand, IGetRoleCommand getRoleCommand, IGetRolesCommand getRolesCommand, IInsertRoleCommand insertRoleCommand, IUpdateRoleCommand updateRoleCommand)
         {
             this.deleteRoleCommand = deleteRoleCommand;
             this.getRoleCommand = getRoleCommand;

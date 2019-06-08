@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Application.Commands.Delete;
 using Application.Commands.Logs;
 using Application.Exceptions;
 using Application.Searches;
@@ -17,13 +16,13 @@ namespace Api.Controllers
     [ApiController]
     public class LogsController : ControllerBase
     {
-        private readonly IDelete deleteLogCommand;
+        private readonly IDeleteLogCommand deleteLogCommand;
         private readonly IGetLogCommand getLogCommand;
         private readonly IGetLogsCommand getLogsCommand;
         private readonly IInsertLogCommand insertLogCommand;
         private readonly IUpdateLogCommand updateLogCommand;
 
-        public LogsController(IDelete deleteLogCommand, IGetLogCommand getLogCommand, IGetLogsCommand getLogsCommand, IInsertLogCommand insertLogCommand, IUpdateLogCommand updateLogCommand)
+        public LogsController(IDeleteLogCommand deleteLogCommand, IGetLogCommand getLogCommand, IGetLogsCommand getLogsCommand, IInsertLogCommand insertLogCommand, IUpdateLogCommand updateLogCommand)
         {
             this.deleteLogCommand = deleteLogCommand;
             this.getLogCommand = getLogCommand;

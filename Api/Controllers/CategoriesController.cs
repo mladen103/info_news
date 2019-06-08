@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Application.Commands.Delete;
 using Application.Commands.Categories;
 using Application.Exceptions;
 using Application.Searches;
@@ -17,13 +16,13 @@ namespace Api.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly IDelete deleteCategoryCommand;
+        private readonly IDeleteCategoryCommand deleteCategoryCommand;
         private readonly IGetCategoryCommand getCategoryCommand;
         private readonly IGetCategoriesCommand getCategoriesCommand;
         private readonly IInsertCategoryCommand insertCategoryCommand;
         private readonly IUpdateCategoryCommand updateCategoryCommand;
 
-        public CategoriesController(IDelete deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand, IInsertCategoryCommand insertCategoryCommand, IUpdateCategoryCommand updateCategoryCommand)
+        public CategoriesController(IDeleteCategoryCommand deleteCategoryCommand, IGetCategoryCommand getCategoryCommand, IGetCategoriesCommand getCategoriesCommand, IInsertCategoryCommand insertCategoryCommand, IUpdateCategoryCommand updateCategoryCommand)
         {
             this.deleteCategoryCommand = deleteCategoryCommand;
             this.getCategoryCommand = getCategoryCommand;

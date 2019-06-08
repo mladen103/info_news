@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Application.Commands.Delete;
 using Application.Commands.Users;
 using Application.Exceptions;
 using Application.Searches;
@@ -17,13 +16,13 @@ namespace Api.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IDelete deleteUserCommand;
+        private readonly IDeleteUserCommand deleteUserCommand;
         private readonly IGetUserCommand getUserCommand;
         private readonly IGetUsersCommand getUsersCommand;
         private readonly IInsertUserCommand insertUserCommand;
         private readonly IUpdateUserCommand updateUserCommand;
 
-        public UsersController(IDelete deleteUserCommand, IGetUserCommand getUserCommand, IGetUsersCommand getUsersCommand, IInsertUserCommand insertUserCommand, IUpdateUserCommand updateUserCommand)
+        public UsersController(IDeleteUserCommand deleteUserCommand, IGetUserCommand getUserCommand, IGetUsersCommand getUsersCommand, IInsertUserCommand insertUserCommand, IUpdateUserCommand updateUserCommand)
         {
             this.deleteUserCommand = deleteUserCommand;
             this.getUserCommand = getUserCommand;

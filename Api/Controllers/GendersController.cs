@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Application.Commands.Delete;
 using Application.Commands.Genders;
 using Application.Exceptions;
 using Application.Searches;
@@ -17,13 +16,13 @@ namespace Api.Controllers
     [ApiController]
     public class GendersController : ControllerBase
     {
-        private readonly IDelete deleteGenderCommand;
+        private readonly IDeleteGenderCommand deleteGenderCommand;
         private readonly IGetGenderCommand getGenderCommand;
         private readonly IGetGendersCommand getGendersCommand;
         private readonly IInsertGenderCommand insertGenderCommand;
         private readonly IUpdateGenderCommand updateGenderCommand;
 
-        public GendersController(IDelete deleteGenderCommand, IGetGenderCommand getGenderCommand, IGetGendersCommand getGendersCommand, IInsertGenderCommand insertGenderCommand, IUpdateGenderCommand updateGenderCommand)
+        public GendersController(IDeleteGenderCommand deleteGenderCommand, IGetGenderCommand getGenderCommand, IGetGendersCommand getGendersCommand, IInsertGenderCommand insertGenderCommand, IUpdateGenderCommand updateGenderCommand)
         {
             this.deleteGenderCommand = deleteGenderCommand;
             this.getGenderCommand = getGenderCommand;

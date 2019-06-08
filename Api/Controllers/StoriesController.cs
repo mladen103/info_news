@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Application.Commands.Delete;
 using Application.Commands.Stories;
 using Application.Exceptions;
 using Application.Searches;
@@ -17,13 +16,13 @@ namespace Api.Controllers
     [ApiController]
     public class StoriesController : ControllerBase
     {
-        private readonly IDelete deleteStoryCommand;
+        private readonly IDeleteStoryCommand deleteStoryCommand;
         private readonly IGetStoryCommand getStoryCommand;
         private readonly IGetStoriesCommand getStoriesCommand;
         private readonly IInsertStoryCommand insertStoryCommand;
         private readonly IUpdateStoryCommand updateStoryCommand;
 
-        public StoriesController(IDelete deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand, IInsertStoryCommand insertStoryCommand, IUpdateStoryCommand updateStoryCommand)
+        public StoriesController(IDeleteStoryCommand deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand, IInsertStoryCommand insertStoryCommand, IUpdateStoryCommand updateStoryCommand)
         {
             this.deleteStoryCommand = deleteStoryCommand;
             this.getStoryCommand = getStoryCommand;

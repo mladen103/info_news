@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Application.Commands.Delete;
 using Application.Commands.Journalists;
 using Application.Exceptions;
 using Application.Searches;
@@ -15,15 +14,15 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JorunalistsController : ControllerBase
+    public class JournalistsController : ControllerBase
     {
-        private readonly IDelete deleteJournalistCommand;
+        private readonly IDeleteJournalistCommand deleteJournalistCommand;
         private readonly IGetJournalistCommand getJournalistCommand;
         private readonly IGetJournalistsCommand getJournalistsCommand;
         private readonly IInsertJournalistCommand insertJournalistCommand;
         private readonly IUpdateJournalistCommand updateJournalistCommand;
 
-        public JorunalistsController(IDelete deleteJournalistCommand, IGetJournalistCommand getJournalistCommand, IGetJournalistsCommand getJournalistsCommand, IInsertJournalistCommand insertJournalistCommand, IUpdateJournalistCommand updateJournalistCommand)
+        public JournalistsController(IDeleteJournalistCommand deleteJournalistCommand, IGetJournalistCommand getJournalistCommand, IGetJournalistsCommand getJournalistsCommand, IInsertJournalistCommand insertJournalistCommand, IUpdateJournalistCommand updateJournalistCommand)
         {
             this.deleteJournalistCommand = deleteJournalistCommand;
             this.getJournalistCommand = getJournalistCommand;
