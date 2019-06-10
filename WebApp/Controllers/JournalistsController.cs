@@ -94,7 +94,7 @@ namespace WebApp.Controllers
                 var journalist = this.getJournalistCommand.Execute(id);
                 return View(journalist);
             }
-            catch (EntityNotFoundException e)
+            catch (EntityNotFoundException)
             {
                 return RedirectToAction("index");
             }

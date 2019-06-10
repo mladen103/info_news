@@ -8,5 +8,7 @@ namespace Application.DataTransferObjects
     {
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public ICollection<JournalistDto> Journalists { get; set; }
     }
 }

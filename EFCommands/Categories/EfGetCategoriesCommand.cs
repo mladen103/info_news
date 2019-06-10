@@ -7,6 +7,7 @@ using Application.Commands.Categories;
 using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
+using Application.Responses;
 
 namespace EFCommands.Categories
 {
@@ -16,7 +17,7 @@ namespace EFCommands.Categories
         {
         }
 
-        public IEnumerable<CategoryDto> Execute(CategorySearch request)
+        public PagedResponse<CategoryDto> Execute(CategorySearch request)
         {
             var query = this.Context.Categories.AsQueryable();
 
@@ -33,10 +34,26 @@ namespace EFCommands.Categories
                     c => c.IsActive == request.IsActive);
             }
 
-            return query.Select(c => new CategoryDto {
-                Id = c.Id,
-                Name = c.Name
-            });
+            int totalCount = query.Count();
+
+            // number of pages/buttons
+            int numberOfPages = (int)Math.Ceiling((double)totalCount / request.PerPage);
+
+            query = query.Skip(request.PageNumber * request.PerPage - request.PerPage).Take(request.PerPage);
+            // second way .Skip((request.PageNumber - 1)* request.PerPage).Take(request.PerPage);
+            
+            var result = new PagedResponse<CategoryDto>{
+               TotalNumber = totalCount,
+               PagesNumber = numberOfPages,
+               CurrentPage = request.PageNumber,
+               Data = query.Select(c => new CategoryDto
+               {
+                   Id = c.Id,
+                   Name = c.Name
+               })
+            };
+
+            return result;
         }
     }
 }

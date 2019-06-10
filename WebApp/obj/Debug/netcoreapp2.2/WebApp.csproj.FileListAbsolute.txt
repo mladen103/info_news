@@ -39,3 +39,4 @@ C:\Users\Mladen\source\repos\info_news\WebApp\bin\Debug\netcoreapp2.2\Domain.pdb
 C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Journalists\Index.g.cshtml.cs
 C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Journalists\Details.g.cshtml.cs
 C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Journalists\Create.g.cshtml.cs
+C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Journalists\Edit.g.cshtml.cs

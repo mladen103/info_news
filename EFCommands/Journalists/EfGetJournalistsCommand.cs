@@ -18,7 +18,7 @@ namespace EFCommands.Journalists
 
         public IEnumerable<JournalistDto> Execute(JournalistSearch request)
         {
-            var query = this.Context.Journalists.AsQueryable();
+            var query = this.Context.Journalists.Where(j => !j.IsDeleted).AsQueryable();
 
             if (request.FirstName != null)
             {
@@ -32,6 +32,9 @@ namespace EFCommands.Journalists
                 query = query.Where(
                     j => j.IsActive == request.IsActive);
             }
+
+            
+
 
             return query.Select(j => new JournalistDto
             {
