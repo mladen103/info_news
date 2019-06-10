@@ -7,6 +7,7 @@ using Application.Commands.Journalists;
 using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
+using Application.Responses;
 
 namespace EFCommands.Journalists
 {
@@ -16,7 +17,7 @@ namespace EFCommands.Journalists
         {
         }
 
-        public IEnumerable<JournalistDto> Execute(JournalistSearch request)
+        public PagedResponse<JournalistDto> Execute(JournalistSearch request)
         {
             var query = this.Context.Journalists.Where(j => !j.IsDeleted).AsQueryable();
 
@@ -33,15 +34,29 @@ namespace EFCommands.Journalists
                     j => j.IsActive == request.IsActive);
             }
 
-            
+            int totalCount = query.Count();
 
+            // number of pages/buttons
+            int numberOfPages = (int)Math.Ceiling((double)totalCount / request.PerPage);
 
-            return query.Select(j => new JournalistDto
+            query = query.Skip(request.PageNumber * request.PerPage - request.PerPage).Take(request.PerPage);
+            // second way .Skip((request.PageNumber - 1)* request.PerPage).Take(request.PerPage);
+
+            var result = new PagedResponse<JournalistDto>
             {
-                Id = j.Id,
-                FirstName = j.FirstName,
-                LastName = j.LastName
-            });
+                TotalNumber = totalCount,
+                PagesNumber = numberOfPages,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(j => new JournalistDto
+                {
+                    Id = j.Id,
+                    FirstName = j.FirstName,
+                    LastName = j.LastName
+                })
+            };
+
+            return result;
+            
         }
     }
 }

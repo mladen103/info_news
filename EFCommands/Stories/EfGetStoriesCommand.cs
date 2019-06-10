@@ -7,6 +7,7 @@ using Application.Commands.Stories;
 using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
+using Application.Responses;
 
 namespace EFCommands.Stories
 {
@@ -16,7 +17,7 @@ namespace EFCommands.Stories
         {
         }
 
-        public IEnumerable<StoryDto> Execute(StorySearch request)
+        public PagedResponse<StoryDto> Execute(StorySearch request)
         {
             var query = this.Context.Stories.AsQueryable();
 
@@ -39,13 +40,30 @@ namespace EFCommands.Stories
                     s => s.Description.ToLower()
                     .Contains(request.Description.ToLower()));
             }
-            
-            return query.Select(s => new StoryDto
+
+            int totalCount = query.Count();
+
+            // number of pages/buttons
+            int numberOfPages = (int)Math.Ceiling((double)totalCount / request.PerPage);
+
+            query = query.Skip(request.PageNumber * request.PerPage - request.PerPage).Take(request.PerPage);
+            // second way .Skip((request.PageNumber - 1)* request.PerPage).Take(request.PerPage);
+
+            var result = new PagedResponse<StoryDto>
             {
-                Id = s.Id,
-                Name = s.Name,
-                Description = s.Description
-            });
+                TotalNumber = totalCount,
+                PagesNumber = numberOfPages,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(s => new StoryDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description
+                })
+            };
+
+            return result;
+            
         }
     }
 }

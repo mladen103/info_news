@@ -7,6 +7,7 @@ using Application.Commands.Roles;
 using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
+using Application.Responses;
 
 namespace EFCommands.Roles
 {
@@ -16,7 +17,7 @@ namespace EFCommands.Roles
         {
         }
 
-        public IEnumerable<RoleDto> Execute(RoleSearch request)
+        public PagedResponse<RoleDto> Execute(RoleSearch request)
         {
             var query = this.Context.Roles.AsQueryable();
 
@@ -33,11 +34,28 @@ namespace EFCommands.Roles
                     r => r.IsActive == request.IsActive);
             }
 
-            return query.Select(r => new RoleDto
+            int totalCount = query.Count();
+
+            // number of pages/buttons
+            int numberOfPages = (int)Math.Ceiling((double)totalCount / request.PerPage);
+
+            query = query.Skip(request.PageNumber * request.PerPage - request.PerPage).Take(request.PerPage);
+            // second way .Skip((request.PageNumber - 1)* request.PerPage).Take(request.PerPage);
+
+            var result = new PagedResponse<RoleDto>
             {
-                Id = r.Id,
-                Name = r.Name
-            });
+                TotalNumber = totalCount,
+                PagesNumber = numberOfPages,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(r => new RoleDto
+                {
+                    Id = r.Id,
+                    Name = r.Name
+                })
+            };
+
+            return result;
+            
         }
     }
 }

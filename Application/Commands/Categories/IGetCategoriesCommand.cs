@@ -4,8 +4,8 @@ using System.Text;
 
 using Application.DataTransferObjects;
 using Application.Interfaces;
-using Application.Responses;
 using Application.Searches;
+using Application.Responses;
 
 namespace Application.Commands.Categories
 {

@@ -7,6 +7,7 @@ using Application.Commands.Genders;
 using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
+using Application.Responses;
 
 namespace EFCommands.Genders
 {
@@ -16,7 +17,7 @@ namespace EFCommands.Genders
         {
         }
 
-        public IEnumerable<GenderDto> Execute(GenderSearch request)
+        public PagedResponse<GenderDto> Execute(GenderSearch request)
         {
             var query = this.Context.Genders.AsQueryable();
 
@@ -32,12 +33,28 @@ namespace EFCommands.Genders
                 query = query.Where(
                     g => g.IsActive == request.IsActive);
             }
+            
+            int totalCount = query.Count();
 
-            return query.Select(g => new GenderDto
+            // number of pages/buttons
+            int numberOfPages = (int)Math.Ceiling((double)totalCount / request.PerPage);
+
+            query = query.Skip(request.PageNumber * request.PerPage - request.PerPage).Take(request.PerPage);
+            // second way .Skip((request.PageNumber - 1)* request.PerPage).Take(request.PerPage);
+
+            var result = new PagedResponse<GenderDto>
             {
-                Id = g.Id,
-                Name = g.Name
-            });
+                TotalNumber = totalCount,
+                PagesNumber = numberOfPages,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(g => new GenderDto
+                {
+                    Id = g.Id,
+                    Name = g.Name
+                })
+            };
+
+            return result;
         }
     }
 }

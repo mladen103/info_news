@@ -7,6 +7,7 @@ using Application.Commands.Logs;
 using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
+using Application.Responses;
 
 namespace EFCommands.Logs
 {
@@ -16,7 +17,7 @@ namespace EFCommands.Logs
         {
         }
 
-        public IEnumerable<LogDto> Execute(LogSearch request)
+        public PagedResponse<LogDto> Execute(LogSearch request)
         {
             var query = this.Context.Logs.AsQueryable();
 
@@ -33,11 +34,27 @@ namespace EFCommands.Logs
                     l => l.IsActive == request.IsActive);
             }
 
-            return query.Select(l => new LogDto
+            int totalCount = query.Count();
+
+            // number of pages/buttons
+            int numberOfPages = (int)Math.Ceiling((double)totalCount / request.PerPage);
+
+            query = query.Skip(request.PageNumber * request.PerPage - request.PerPage).Take(request.PerPage);
+            // second way .Skip((request.PageNumber - 1)* request.PerPage).Take(request.PerPage);
+
+            var result = new PagedResponse<LogDto>
             {
-                Id = l.Id,
-                Description = l.Description
-            });
+                TotalNumber = totalCount,
+                PagesNumber = numberOfPages,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(l => new LogDto
+                {
+                    Id = l.Id,
+                    Description = l.Description
+                })
+            };
+
+            return result;
         }
     }
 }
