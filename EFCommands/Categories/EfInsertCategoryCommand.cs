@@ -19,14 +19,16 @@ namespace EFCommands.Categories
 
         public void Execute(CategoryDto request)
         {
-            if (this.Context.Genders
-                .Where(g => !g.IsDeleted)
+            if (this.Context.Categories
+                .Where(c => !c.IsDeleted)
                 .Any(c => c.Name == request.Name))
                 throw new EntityAlreadyExistsException("category");
+            
 
             this.Context.Add(new Category
             {
-                Name = request.Name
+                Name = request.Name,
+                IsActive = request.IsActive
             });
 
             this.Context.SaveChanges();

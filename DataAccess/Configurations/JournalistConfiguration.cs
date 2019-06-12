@@ -15,6 +15,8 @@ namespace DataAccess.Configurations
             builder.Property(j => j.FirstName).IsRequired().HasMaxLength(40);
             builder.Property(j => j.LastName).IsRequired().HasMaxLength(40);
 
+            builder.Property(j => j.CreatedAt).HasDefaultValueSql("GETDATE()");
+
             builder
                 .HasMany(j => j.JournalistStories)
                 .WithOne(js => js.Journalist)

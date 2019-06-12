@@ -24,8 +24,7 @@ namespace EFCommands.Stories
                 throw new EntityNotFoundException("story");
             if (story.IsDeleted)
                 throw new EntityNotFoundException("story");
-
-
+            
             if (story.Name != request.Name)
                 story.Name = request.Name;
             if (story.Description != request.Description)

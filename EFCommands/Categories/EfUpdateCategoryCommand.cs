@@ -28,6 +28,10 @@ namespace EFCommands.Categories
             if(category.Name != request.Name)
                 if (this.Context.Categories.Any(c => c.Name == request.Name))
                     throw new EntityAlreadyExistsException("category");
+            if (category.IsActive != request.IsActive)
+                category.IsActive = request.IsActive;
+
+            category.ModifiedAt = DateTime.Now;
             
             category.Name = request.Name;
 

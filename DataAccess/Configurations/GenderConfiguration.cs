@@ -13,7 +13,8 @@ namespace DataAccess.Configurations
         public void Configure(EntityTypeBuilder<Gender> builder)
         {
             builder.Property(g => g.Name).IsRequired().HasMaxLength(40);
-            builder.HasIndex(g => g.Name).IsUnique();
+            builder.Property(g => g.CreatedAt).HasDefaultValueSql("GETDATE()");
+            // builder.HasIndex(g => g.Name).IsUnique();
         }
     }
 }

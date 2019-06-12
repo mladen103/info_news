@@ -22,7 +22,7 @@ namespace EFCommands.Users
             var query = this.Context.Users
                 .Where(u => !u.IsDeleted)
                 .AsQueryable();
-
+            
             if (request.Email != null)
             {
                 query = query.Where(

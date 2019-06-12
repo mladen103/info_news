@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20190612173853_created_at_test")]
+    partial class created_at_test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,9 @@ namespace DataAccess.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<DateTime?>("ModifiedAt");
+                    b.Property<DateTime?>("ModifiedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -52,9 +56,7 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -70,6 +72,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Genders");
                 });
 
@@ -79,9 +84,7 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -110,9 +113,7 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -136,9 +137,7 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -159,6 +158,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("StoryId");
 
                     b.ToTable("Pictures");
@@ -170,9 +172,7 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -188,6 +188,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Roles");
                 });
 
@@ -199,9 +202,7 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CategoryId");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -244,9 +245,7 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -268,6 +267,9 @@ namespace DataAccess.Migrations
                     b.Property<int>("RoleId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("GenderId");
 

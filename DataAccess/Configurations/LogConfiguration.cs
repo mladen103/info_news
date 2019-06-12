@@ -13,6 +13,7 @@ namespace DataAccess.Configurations
         public void Configure(EntityTypeBuilder<Log> builder)
         {
             builder.Property(l => l.Description).IsRequired();
+            builder.Property(l => l.CreatedAt).HasDefaultValueSql("GETDATE()");
         }
     }
 }

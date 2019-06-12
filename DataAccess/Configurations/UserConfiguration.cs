@@ -14,8 +14,9 @@ namespace DataAccess.Configurations
         {
             builder.Property(u => u.Email).IsRequired().HasMaxLength(150);
             builder.Property(u => u.Password).IsRequired();
+            builder.Property(u => u.CreatedAt).HasDefaultValueSql("GETDATE()");
 
-            builder.HasIndex(u => u.Email).IsUnique();
+            // builder.HasIndex(u => u.Email).IsUnique();
         }
     }
 }

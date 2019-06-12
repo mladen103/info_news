@@ -68,7 +68,7 @@ namespace Api.Controllers
 
         // POST: api/Categories
         [HttpPost]
-        public IActionResult Post([FromBody] CategoryDto value)
+        public ActionResult Post([FromBody] CategoryDto value)
         {
             try
             {
@@ -79,9 +79,9 @@ namespace Api.Controllers
             {
                 return Conflict(e.Message);
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                return StatusCode(500);
+                return StatusCode(500, e);
             }
         }
 
@@ -97,7 +97,9 @@ namespace Api.Controllers
             }
             catch (EntityNotFoundException e)
             {
-                return NotFound(e.Message);
+                if(e.Message == "The chosen category not found.")
+                    return NotFound(e.Message);
+                return UnprocessableEntity(e.Message);
             }
             catch (EntityAlreadyExistsException e)
             {
