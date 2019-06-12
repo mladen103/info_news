@@ -19,9 +19,7 @@ namespace EFCommands.Stories
 
         public void Execute(StoryDto request)
         {
-            var stories = this.Context.Stories;
-            
-            stories.Add(new Story
+            this.Context.Stories.Add(new Story
             {
                 Name = request.Name,
                 Description = request.Description

@@ -19,12 +19,13 @@ namespace EFCommands.Genders
 
         public void Execute(GenderDto request)
         {
-            var genders = this.Context.Genders;
+            
+            if (this.Context.Genders
+                .Where(g => !g.IsDeleted)
+                .Any(g => g.Name == request.Name))
+                throw new EntityAlreadyExistsException("gender");
 
-            if (genders.Any(g => g.Name == request.Name))
-                throw new EntityAlreadyExistsException();
-
-            genders.Add(new Gender
+            this.Context.Genders.Add(new Gender
             {
                 Name = request.Name
             });

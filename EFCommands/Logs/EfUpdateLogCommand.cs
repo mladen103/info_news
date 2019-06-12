@@ -21,10 +21,10 @@ namespace EFCommands.Logs
         {
             var log = this.Context.Logs.Find(request.Id);
             if (log == null)
-                throw new EntityNotFoundException();
-
-            var logs = this.Context.Logs;
-
+                throw new EntityNotFoundException("log");
+            if (log.IsDeleted)
+                throw new EntityNotFoundException("log");
+            
             if (log.Description != request.Description)
                 log.Description = request.Description;
 

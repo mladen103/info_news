@@ -6,6 +6,15 @@ namespace Application.Exceptions
 {
     public class EntityNotFoundException : Exception
     {
+        public EntityNotFoundException()
+        {
 
+        }
+
+        // interpolation sintax
+        public EntityNotFoundException(string entity) : base($"The chosen {entity} not found.")
+        {
+
+        }
     }
 }

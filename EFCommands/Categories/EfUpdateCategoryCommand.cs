@@ -21,13 +21,13 @@ namespace EFCommands.Categories
         {
             var category = this.Context.Categories.Find(request.Id);
             if (category == null)
-                throw new EntityNotFoundException();
-
-            var categories = this.Context.Categories;
-
+                throw new EntityNotFoundException("category");
+            if(category.IsDeleted)
+                throw new EntityNotFoundException("category");
+            
             if(category.Name != request.Name)
-                if (categories.Any(c => c.Name == request.Name))
-                    throw new EntityAlreadyExistsException();
+                if (this.Context.Categories.Any(c => c.Name == request.Name))
+                    throw new EntityAlreadyExistsException("category");
             
             category.Name = request.Name;
 

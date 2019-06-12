@@ -21,7 +21,9 @@ namespace EFCommands
             var journalist = this.Context.Journalists.Find(request);
 
             if (journalist == null)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("journalist");
+            if (journalist.IsDeleted)
+                throw new EntityNotFoundException("journalist");
 
             journalist.IsDeleted = true;
             this.Context.SaveChanges();

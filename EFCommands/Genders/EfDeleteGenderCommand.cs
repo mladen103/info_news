@@ -20,7 +20,9 @@ namespace EFCommands
             var gender = this.Context.Genders.Find(request);
 
             if (gender == null)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("gender");
+            if (gender.IsDeleted)
+                throw new EntityNotFoundException("gender");
 
             gender.IsDeleted = true;
             this.Context.SaveChanges();

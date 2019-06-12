@@ -19,12 +19,12 @@ namespace EFCommands.Users
 
         public void Execute(UserInsertDto request)
         {
-            var users = this.Context.Users;
-
-            if (users.Any(u => u.Email == request.Email))
+            if (this.Context.Users
+                .Where(g => !g.IsDeleted)
+                .Any(u => u.Email == request.Email))
                 throw new EntityAlreadyExistsException();
 
-            users.Add(new User
+            this.Context.Users.Add(new User
             {
                 Email = request.Email,
                 Password = request.Password

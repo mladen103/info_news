@@ -21,6 +21,8 @@ namespace EFCommands
 
             if (story == null)
                 throw new EntityNotFoundException();
+            if (story.IsDeleted)
+                throw new EntityNotFoundException("story");
 
             story.IsDeleted = true;
             this.Context.SaveChanges();

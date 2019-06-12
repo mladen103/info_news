@@ -20,9 +20,9 @@ namespace EFCommands.Users
             var user = this.Context.Users.Find(request);
 
             if (user == null)
-                throw new EntityNotFoundException();
-            if (user.IsDeleted == true)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("user");
+            if (user.IsDeleted)
+                throw new EntityNotFoundException("user");
 
             return new UserGetDto
             {

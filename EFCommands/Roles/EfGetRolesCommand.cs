@@ -19,7 +19,9 @@ namespace EFCommands.Roles
 
         public PagedResponse<RoleDto> Execute(RoleSearch request)
         {
-            var query = this.Context.Roles.AsQueryable();
+            var query = this.Context.Roles
+                .Where(r => !r.IsDeleted)
+                .AsQueryable();
 
             if (request.Name != null)
             {

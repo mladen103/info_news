@@ -21,7 +21,9 @@ namespace EFCommands
             var category = this.Context.Categories.Find(request);
 
             if (category == null)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("category");
+            if (category.IsDeleted)
+                throw new EntityNotFoundException("category");
 
             category.IsDeleted = true;
             this.Context.SaveChanges();

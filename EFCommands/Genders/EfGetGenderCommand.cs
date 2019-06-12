@@ -20,9 +20,9 @@ namespace EFCommands.Genders
             var gender = this.Context.Genders.Find(request);
 
             if (gender == null)
-                throw new EntityNotFoundException();
-            if (gender.IsDeleted == true)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("gender");
+            if (gender.IsDeleted)
+                throw new EntityNotFoundException("gender");
 
             return new GenderDto
             {

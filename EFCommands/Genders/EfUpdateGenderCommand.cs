@@ -21,13 +21,13 @@ namespace EFCommands.Genders
         {
             var gender = this.Context.Genders.Find(request.Id);
             if (gender == null)
-                throw new EntityNotFoundException();
-
-            var genders = this.Context.Categories;
-
+                throw new EntityNotFoundException("gender");
+            if (gender.IsDeleted)
+                throw new EntityNotFoundException("gender");
+            
             if (gender.Name != request.Name)
-                if (genders.Any(g => g.Name == request.Name))
-                    throw new EntityAlreadyExistsException();
+                if (this.Context.Genders.Any(g => g.Name == request.Name))
+                    throw new EntityAlreadyExistsException("gender");
 
             gender.Name = request.Name;
 

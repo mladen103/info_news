@@ -19,12 +19,12 @@ namespace EFCommands.Roles
 
         public void Execute(RoleDto request)
         {
-            var roles = this.Context.Roles;
-
-            if (roles.Any(r => r.Name == request.Name))
+            if (this.Context.Roles
+                .Where(g => !g.IsDeleted)
+                .Any(r => r.Name == request.Name))
                 throw new EntityAlreadyExistsException();
 
-            roles.Add(new Role
+            this.Context.Roles.Add(new Role
             {
                 Name = request.Name
             });

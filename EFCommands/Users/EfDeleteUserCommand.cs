@@ -17,12 +17,15 @@ namespace EFCommands
 
         public void Execute(int request)
         {
-            var story = this.Context.Users.Find(request);
+            var user = this.Context.Users.Find(request);
 
-            if (story == null)
-                throw new EntityNotFoundException();
+            if (user == null)
+                throw new EntityNotFoundException("user");
+            if (user.IsDeleted)
+                throw new EntityNotFoundException("user");
 
-            story.IsDeleted = true;
+
+            user.IsDeleted = true;
             this.Context.SaveChanges();
         }
     }

@@ -20,16 +20,16 @@ namespace EFCommands.Users
         public void Execute(UserInsertDto request)
         {
             var user = this.Context.Users.Find(request.Id);
+
             if (user == null)
-                throw new EntityNotFoundException();
-
-            var users = this.Context.Users;
-
+                throw new EntityNotFoundException("user");
+            if (user.IsDeleted)
+                throw new EntityNotFoundException("user");
             
             if (user.Email != request.Email)
             {
-                if (users.Any(u => u.Email == request.Email))
-                    throw new EntityAlreadyExistsException();
+                if (this.Context.Users.Any(u => u.Email == request.Email))
+                    throw new EntityAlreadyExistsException("user");
                 else
                     user.Email = request.Email;
             }

@@ -19,7 +19,9 @@ namespace EFCommands.Logs
 
         public PagedResponse<LogDto> Execute(LogSearch request)
         {
-            var query = this.Context.Logs.AsQueryable();
+            var query = this.Context.Logs
+                .Where(l => !l.IsDeleted)
+                .AsQueryable();
 
             if (request.Description != null)
             {

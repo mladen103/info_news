@@ -75,9 +75,9 @@ namespace Api.Controllers
                 this.insertCategoryCommand.Execute(value);
                 return StatusCode(201);
             }
-            catch (EntityAlreadyExistsException)
+            catch (EntityAlreadyExistsException e)
             {
-                return Conflict();
+                return Conflict(e.Message);
             }
             catch(Exception)
             {
@@ -95,13 +95,13 @@ namespace Api.Controllers
                 this.updateCategoryCommand.Execute(value);
                 return NoContent();
             }
-            catch (EntityNotFoundException)
+            catch (EntityNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
-            catch (EntityAlreadyExistsException)
+            catch (EntityAlreadyExistsException e)
             {
-                return Conflict();
+                return Conflict(e.Message);
             }
             catch (Exception)
             {

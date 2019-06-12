@@ -21,16 +21,15 @@ namespace EFCommands.Journalists
         {
             var journalist = this.Context.Journalists.Find(request.Id);
             if (journalist == null)
-                throw new EntityNotFoundException();
-
-            var journalists = this.Context.Journalists;
-
+                throw new EntityNotFoundException("journalist");
+            if (journalist.IsDeleted)
+                throw new EntityNotFoundException("journalist");
+            
             if (journalist.FirstName != request.FirstName)
                 journalist.FirstName = request.FirstName;
             if (journalist.LastName != request.LastName)
                 journalist.LastName = request.LastName;
-
-
+            
             this.Context.SaveChanges();
         }
     }

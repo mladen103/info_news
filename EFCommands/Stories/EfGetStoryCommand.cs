@@ -20,9 +20,9 @@ namespace EFCommands.Stories
             var story = this.Context.Stories.Find(request);
 
             if (story == null)
-                throw new EntityNotFoundException();
-            if (story.IsDeleted == true)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("story");
+            if (story.IsDeleted)
+                throw new EntityNotFoundException("story");
 
             return new StoryDto
             {

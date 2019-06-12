@@ -21,10 +21,11 @@ namespace EFCommands.Stories
         {
             var story = this.Context.Stories.Find(request.Id);
             if (story == null)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("story");
+            if (story.IsDeleted)
+                throw new EntityNotFoundException("story");
 
-            var stories = this.Context.Stories;
-            
+
             if (story.Name != request.Name)
                 story.Name = request.Name;
             if (story.Description != request.Description)

@@ -19,7 +19,9 @@ namespace EFCommands.Journalists
 
         public PagedResponse<JournalistDto> Execute(JournalistSearch request)
         {
-            var query = this.Context.Journalists.Where(j => !j.IsDeleted).AsQueryable();
+            var query = this.Context.Journalists
+                .Where(j => !j.IsDeleted)
+                .AsQueryable();
 
             if (request.FirstName != null)
             {

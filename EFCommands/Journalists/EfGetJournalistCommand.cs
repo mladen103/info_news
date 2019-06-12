@@ -20,9 +20,9 @@ namespace EFCommands.Journalists
             var journalist = this.Context.Journalists.Find(request);
 
             if (journalist == null)
-                throw new EntityNotFoundException();
-            if (journalist.IsDeleted == true)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("journalist");
+            if (journalist.IsDeleted)
+                throw new EntityNotFoundException("journalist");
 
             return new JournalistDto
             {

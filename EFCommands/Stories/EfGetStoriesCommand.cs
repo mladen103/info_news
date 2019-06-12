@@ -19,7 +19,9 @@ namespace EFCommands.Stories
 
         public PagedResponse<StoryDto> Execute(StorySearch request)
         {
-            var query = this.Context.Stories.AsQueryable();
+            var query = this.Context.Stories
+                .Where(s => !s.IsDeleted)
+                .AsQueryable();
 
             if (request.Name != null)
             {

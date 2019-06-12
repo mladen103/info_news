@@ -19,9 +19,7 @@ namespace EFCommands.Journalists
 
         public void Execute(JournalistDto request)
         {
-            var journalists = this.Context.Journalists;
-            
-            journalists.Add(new Journalist
+            this.Context.Journalists.Add(new Journalist
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName

@@ -20,7 +20,9 @@ namespace EFCommands
             var log = this.Context.Logs.Find(request);
 
             if (log == null)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("log");
+            if (log.IsDeleted)
+                throw new EntityNotFoundException("log");
 
             log.IsDeleted = true;
             this.Context.SaveChanges();

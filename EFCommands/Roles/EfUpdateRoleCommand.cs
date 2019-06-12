@@ -21,13 +21,13 @@ namespace EFCommands.Roles
         {
             var role = this.Context.Roles.Find(request.Id);
             if (role == null)
-                throw new EntityNotFoundException();
-
-            var roles = this.Context.Categories;
-
+                throw new EntityNotFoundException("role");
+            if (role.IsDeleted)
+                throw new EntityNotFoundException("role");
+            
             if (role.Name != request.Name)
-                if (roles.Any(r => r.Name == request.Name))
-                    throw new EntityAlreadyExistsException();
+                if (this.Context.Roles.Any(r => r.Name == request.Name))
+                    throw new EntityAlreadyExistsException("role");
 
             role.Name = request.Name;
 

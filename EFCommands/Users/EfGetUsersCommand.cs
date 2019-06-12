@@ -19,7 +19,9 @@ namespace EFCommands.Users
 
         public PagedResponse<UserGetDto> Execute(UserSearch request)
         {
-            var query = this.Context.Users.AsQueryable();
+            var query = this.Context.Users
+                .Where(u => !u.IsDeleted)
+                .AsQueryable();
 
             if (request.Email != null)
             {

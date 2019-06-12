@@ -20,7 +20,9 @@ namespace EFCommands
             var role = this.Context.Roles.Find(request);
 
             if (role == null)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("role");
+            if (role.IsDeleted)
+                throw new EntityNotFoundException("role");
 
             role.IsDeleted = true;
             this.Context.SaveChanges();

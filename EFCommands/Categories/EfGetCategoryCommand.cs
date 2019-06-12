@@ -6,6 +6,7 @@ using Application.Commands.Categories;
 using Application.DataTransferObjects;
 using Application.Exceptions;
 using DataAccess;
+using System.Linq;
 
 namespace EFCommands.Categories
 {
@@ -20,9 +21,9 @@ namespace EFCommands.Categories
             var category = this.Context.Categories.Find(request);
 
             if (category == null)
-                throw new EntityNotFoundException();
-            if(category.IsDeleted == true)
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("category");
+            if(category.IsDeleted)
+                throw new EntityNotFoundException("category");
 
             return new CategoryDto
             {

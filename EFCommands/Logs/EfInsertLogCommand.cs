@@ -19,9 +19,7 @@ namespace EFCommands.Logs
 
         public void Execute(LogDto request)
         {
-            var logs = this.Context.Logs;
-            
-            logs.Add(new Log
+            this.Context.Logs.Add(new Log
             {
                 Description = request.Description
             });

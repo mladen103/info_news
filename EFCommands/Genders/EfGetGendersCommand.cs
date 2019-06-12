@@ -19,7 +19,9 @@ namespace EFCommands.Genders
 
         public PagedResponse<GenderDto> Execute(GenderSearch request)
         {
-            var query = this.Context.Genders.AsQueryable();
+            var query = this.Context.Genders
+                .Where(g => !g.IsDeleted)
+                .AsQueryable();
 
             if (request.Name != null)
             {
