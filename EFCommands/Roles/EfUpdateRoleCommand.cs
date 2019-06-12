@@ -28,8 +28,12 @@ namespace EFCommands.Roles
             if (role.Name != request.Name)
                 if (this.Context.Roles.Any(r => r.Name == request.Name))
                     throw new EntityAlreadyExistsException("role");
-
             role.Name = request.Name;
+
+            if (role.IsActive != request.IsActive)
+                role.IsActive = request.IsActive;
+
+            role.ModifiedAt = DateTime.Now;
 
             this.Context.SaveChanges();
         }

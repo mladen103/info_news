@@ -29,7 +29,11 @@ namespace EFCommands.Stories
                 story.Name = request.Name;
             if (story.Description != request.Description)
                 story.Description = request.Description;
-            
+            if (story.IsActive != request.IsActive)
+                story.IsActive = request.IsActive;
+
+            story.ModifiedAt = DateTime.Now;
+
             this.Context.SaveChanges();
         }
     }

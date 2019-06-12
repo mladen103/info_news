@@ -27,6 +27,10 @@ namespace EFCommands.Logs
             
             if (log.Description != request.Description)
                 log.Description = request.Description;
+            if (log.IsActive != request.IsActive)
+                log.IsActive = request.IsActive;
+
+            log.ModifiedAt = DateTime.Now;
 
             this.Context.SaveChanges();
         }

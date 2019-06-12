@@ -36,7 +36,11 @@ namespace EFCommands.Users
 
             if (user.Password != request.Password)
                 user.Password = request.Password;
-            
+            if (user.IsActive != request.IsActive)
+                user.IsActive = request.IsActive;
+
+            user.ModifiedAt = DateTime.Now;
+
             this.Context.SaveChanges();
         }
     }

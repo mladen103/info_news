@@ -29,7 +29,11 @@ namespace EFCommands.Journalists
                 journalist.FirstName = request.FirstName;
             if (journalist.LastName != request.LastName)
                 journalist.LastName = request.LastName;
-            
+            if (journalist.IsActive != request.IsActive)
+                journalist.IsActive = request.IsActive;
+
+            journalist.ModifiedAt = DateTime.Now;
+
             this.Context.SaveChanges();
         }
     }

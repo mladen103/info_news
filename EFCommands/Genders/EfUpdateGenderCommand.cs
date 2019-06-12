@@ -28,8 +28,12 @@ namespace EFCommands.Genders
             if (gender.Name != request.Name)
                 if (this.Context.Genders.Any(g => g.Name == request.Name))
                     throw new EntityAlreadyExistsException("gender");
+                gender.Name = request.Name;
 
-            gender.Name = request.Name;
+            if(gender.IsActive != request.IsActive)
+                gender.IsActive = request.IsActive;
+
+            gender.ModifiedAt = DateTime.Now;
 
             this.Context.SaveChanges();
         }
