@@ -17,7 +17,7 @@ namespace WebApp.Models
         [Required(ErrorMessage = "This field is required.")]
         [MinLength(20, ErrorMessage = "Story description must have at least 20 characters.")]
         public string Description { get; set; }
-        [Required]
+        
         public IFormFile Picture { get; set; }
         [Required]
         public bool IsActive { get; set; }

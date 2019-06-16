@@ -139,18 +139,61 @@ namespace WebApp.Controllers
         // POST: Stories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, [FromForm] StoryInsertDto story)
         {
-            try
-            {
-                // TODO: Add update logic here
+            story.Id = id;
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            if (!ModelState.IsValid)
             {
                 return View();
             }
+            
+            try
+            {
+                string newFileName = null;
+                if (story.Picture != null)
+                {
+                    var extension = Path.GetExtension(story.Picture.FileName);
+
+                    if (!FileUpload.AllowedExtensions.Contains(extension))
+                    {
+                        return UnprocessableEntity("You must upload image.");
+                    }
+
+                    newFileName = Guid.NewGuid().ToString() + "_" + story.Picture.FileName;
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+                    story.Picture.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+                
+                List<JournalistDto> journalists = new List<JournalistDto>();
+                foreach (var journalistId in story.Journalists)
+                {
+                    journalists.Add(this.getJournalistCommand.Execute(journalistId));
+                }
+
+                StoryDto storyDto = new StoryDto
+                {
+                    Id = story.Id,
+                    IsActive = story.IsActive,
+                    Name = story.Name,
+                    Description = story.Description,
+                    PicturePath = newFileName,
+                    CategoryId = story.CategoryId,
+                    Journalists = journalists
+                };
+
+                this.updateStoryCommand.Execute(storyDto);
+                
+            }
+            catch (Exception e)
+            {
+                string asd = e.Message;
+                TempData["error"] = "An error has occured.";
+            }
+            
+            return RedirectToAction(nameof(Index));
+            
         }
 
         // POST: Stories/Delete/5
