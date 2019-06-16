@@ -27,7 +27,8 @@ namespace EFCommands.Roles
             return new RoleDto
             {
                 Id = role.Id,
-                Name = role.Name
+                Name = role.Name,
+                IsActive = role.IsActive
             };
         }
     }

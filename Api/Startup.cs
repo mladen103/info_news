@@ -29,6 +29,8 @@ using EFCommands.Logs;
 using EFCommands.Roles;
 using EFCommands.Stories;
 using EFCommands.Users;
+using Api.Email;
+using Application.Interfaces;
 
 namespace Api
 {
@@ -86,7 +88,14 @@ namespace Api
             services.AddTransient<IUpdateRoleCommand, EfUpdateRoleCommand>();
             services.AddTransient<IUpdateStoryCommand, EfUpdateStoryCommand>();
             services.AddTransient<IUpdateUserCommand, EfUpdateUserCommand>();
-            
+
+            var section = Configuration.GetSection("Email");
+
+            var sender =
+                new SmtpEmailSender(section["host"], Int32.Parse(section["port"]), section["fromaddress"], section["password"]);
+
+            services.AddSingleton<IEmailSender>(sender);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

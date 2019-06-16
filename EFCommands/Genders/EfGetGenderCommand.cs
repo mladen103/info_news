@@ -27,7 +27,8 @@ namespace EFCommands.Genders
             return new GenderDto
             {
                 Id = gender.Id,
-                Name = gender.Name
+                Name = gender.Name,
+                IsActive = gender.IsActive
             };
         }
     }

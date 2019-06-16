@@ -16,6 +16,7 @@ namespace DataAccess.Configurations
             builder.Property(p => p.Path).IsRequired();
             builder.Property(p => p.CreatedAt).HasDefaultValueSql("GETDATE()");
             // builder.HasIndex(p => p.Name).IsUnique();
+            
         }
     }
 }

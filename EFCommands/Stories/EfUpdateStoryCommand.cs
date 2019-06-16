@@ -31,6 +31,9 @@ namespace EFCommands.Stories
                 story.Description = request.Description;
             if (story.IsActive != request.IsActive)
                 story.IsActive = request.IsActive;
+            if (story.Picture != request.Picture)
+                story.Picture = request.Picture;
+
 
             story.ModifiedAt = DateTime.Now;
 

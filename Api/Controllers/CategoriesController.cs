@@ -77,7 +77,12 @@ namespace Api.Controllers
             }
             catch (EntityAlreadyExistsException e)
             {
-                return Conflict(e.Message);
+                if (e.Message == "The chosen category already exists.")
+                {
+                    return Conflict(e.Message);
+                }
+
+                return UnprocessableEntity(e.Message);
             }
             catch(Exception e)
             {

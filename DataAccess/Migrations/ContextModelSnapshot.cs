@@ -155,11 +155,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("Path")
                         .IsRequired();
 
-                    b.Property<int>("StoryId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("StoryId");
 
                     b.ToTable("Pictures");
                 });
@@ -218,9 +214,14 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(200);
 
+                    b.Property<int>("PictureId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("PictureId")
+                        .IsUnique();
 
                     b.ToTable("Stories");
                 });
@@ -276,19 +277,16 @@ namespace DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Domain.Picture", b =>
-                {
-                    b.HasOne("Domain.Story", "Story")
-                        .WithMany()
-                        .HasForeignKey("StoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Domain.Story", b =>
                 {
                     b.HasOne("Domain.Category", "Category")
                         .WithMany("Stories")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.Picture", "Picture")
+                        .WithOne("Story")
+                        .HasForeignKey("Domain.Story", "PictureId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

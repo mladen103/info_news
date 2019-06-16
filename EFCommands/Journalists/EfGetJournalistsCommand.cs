@@ -53,7 +53,8 @@ namespace EFCommands.Journalists
                 {
                     Id = j.Id,
                     FirstName = j.FirstName,
-                    LastName = j.LastName
+                    LastName = j.LastName,
+                    IsActive = j.IsActive
                 })
             };
 

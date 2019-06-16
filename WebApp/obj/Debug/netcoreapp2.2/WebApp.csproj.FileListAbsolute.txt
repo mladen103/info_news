@@ -40,3 +40,6 @@ C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\View
 C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Journalists\Details.g.cshtml.cs
 C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Journalists\Create.g.cshtml.cs
 C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Journalists\Edit.g.cshtml.cs
+C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Stories\Index.g.cshtml.cs
+C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Stories\Create.g.cshtml.cs
+C:\Users\Mladen\source\repos\info_news\WebApp\obj\Debug\netcoreapp2.2\Razor\Views\Stories\Details.g.cshtml.cs

@@ -13,6 +13,8 @@ using Application.Commands.Journalists;
 using DataAccess;
 using EFCommands;
 using EFCommands.Journalists;
+using EFCommands.Stories;
+using Application.Commands.Stories;
 
 namespace WebApp
 {
@@ -44,6 +46,12 @@ namespace WebApp
             services.AddTransient<IGetJournalistsCommand, EfGetJournalistsCommand>();
             services.AddTransient<IInsertJournalistCommand, EfInsertJournalistCommand>();
             services.AddTransient<IUpdateJournalistCommand, EfUpdateJournalistCommand>();
+
+            services.AddTransient<IGetStoriesCommand, EfGetStoriesCommand>();
+            services.AddTransient<IInsertStoryCommand, EfInsertStoryCommand>();
+            services.AddTransient<IUpdateStoryCommand, EfUpdateStoryCommand>();
+            services.AddTransient<IGetStoryCommand, EfGetStoryCommand>();
+            services.AddTransient<IDeleteStoryCommand, EfDeleteStoryCommand>();
 
         }
 

@@ -23,7 +23,9 @@ namespace EFCommands.Stories
             this.Context.Stories.Add(new Story
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                IsActive = request.IsActive,
+                Picture = request.Picture
             });
 
             this.Context.SaveChanges();

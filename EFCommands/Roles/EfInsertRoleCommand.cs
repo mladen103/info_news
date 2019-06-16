@@ -26,7 +26,8 @@ namespace EFCommands.Roles
 
             this.Context.Roles.Add(new Role
             {
-                Name = request.Name
+                Name = request.Name,
+                IsActive = request.IsActive
             });
 
             this.Context.SaveChanges();

@@ -61,7 +61,8 @@ namespace EFCommands.Users
                     Id = u.Id,
                     Email = u.Email,
                     GenderId = u.GenderId,
-                    RoleId = u.RoleId
+                    RoleId = u.RoleId,
+                    IsActive = u.IsActive
                 })
             };
 

@@ -57,8 +57,10 @@ namespace EFCommands.Categories
                     Stories = c.Stories.Select(s => new StoryDto {
                         Name = s.Name,
                         Description = s.Description,
-                        Id = s.Id
-                   })
+                        Id = s.Id,
+                        IsActive = s.IsActive
+                   }),
+                    IsActive = c.IsActive
                })
             };
 

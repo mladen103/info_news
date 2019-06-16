@@ -22,7 +22,8 @@ namespace EFCommands.Journalists
             this.Context.Journalists.Add(new Journalist
             {
                 FirstName = request.FirstName,
-                LastName = request.LastName
+                LastName = request.LastName,
+                IsActive = request.IsActive
             });
 
             this.Context.SaveChanges();

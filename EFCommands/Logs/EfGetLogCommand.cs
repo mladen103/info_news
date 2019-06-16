@@ -27,7 +27,8 @@ namespace EFCommands.Logs
             return new LogDto
             {
                 Id = log.Id,
-                Description = log.Description
+                Description = log.Description,
+                IsActive = log.IsActive
             };
         }
     }

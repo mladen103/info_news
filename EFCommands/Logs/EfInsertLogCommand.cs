@@ -21,7 +21,8 @@ namespace EFCommands.Logs
         {
             this.Context.Logs.Add(new Log
             {
-                Description = request.Description
+                Description = request.Description,
+                IsActive = request.IsActive
             });
 
             this.Context.SaveChanges();

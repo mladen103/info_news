@@ -10,8 +10,11 @@ namespace Domain
         public string Description { get; set; }
 
         public int CategoryId { get; set; }
+        public int PictureId { get; set; }
 
         public Category Category { get; set; }
+        public Picture Picture { get; set; }
+
         public ICollection<StoryJournalist> StoryJournalists { get; set; }
     }
 }

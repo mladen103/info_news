@@ -52,7 +52,8 @@ namespace EFCommands.Roles
                 Data = query.Select(r => new RoleDto
                 {
                     Id = r.Id,
-                    Name = r.Name
+                    Name = r.Name,
+                    IsActive = r.IsActive
                 })
             };
 

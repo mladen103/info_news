@@ -8,6 +8,7 @@ using Application.DataTransferObjects;
 using Application.Searches;
 using DataAccess;
 using Application.Responses;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCommands.Stories
 {
@@ -20,6 +21,7 @@ namespace EFCommands.Stories
         public PagedResponse<StoryDto> Execute(StorySearch request)
         {
             var query = this.Context.Stories
+                .Include(sj => sj.StoryJournalists)
                 .Where(s => !s.IsDeleted)
                 .AsQueryable();
 
@@ -60,8 +62,15 @@ namespace EFCommands.Stories
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    Description = s.Description
-                })
+                    Description = s.Description,
+                    IsActive = s.IsActive,
+                    Picture = s.Picture,
+                    Journalists = s.StoryJournalists.Select(j => new JournalistDto
+                    {
+                        FirstName = j.Journalist.FirstName,
+                        LastName = j.Journalist.LastName
+                    }).ToList()
+                }).ToList()
             };
 
             return result;

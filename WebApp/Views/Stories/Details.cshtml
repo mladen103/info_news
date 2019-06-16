@@ -1,0 +1,49 @@
+﻿@model Application.DataTransferObjects.StoryDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>StoryDto</h4>
+    <hr />
+
+
+    <div class="row">
+        
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img width="100px" height="200px" src="/uploads/@Html.DisplayFor(modelItem => Model.Picture.Path)" alt="@Html.DisplayFor(modelItem => Model.Picture.Name)" style="width:100%">
+                    <div class="caption">
+                        <h3>Name: @Html.DisplayFor(modelItem => Model.Name)</h3>
+                        <p>Active: @Html.DisplayFor(modelItem => Model.IsActive)</p>
+                        <hr />
+                        <p>
+                            Journalists:
+
+                            @* TODO *@
+
+                        </p>
+                        <hr />
+
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

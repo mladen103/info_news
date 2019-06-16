@@ -52,7 +52,8 @@ namespace EFCommands.Genders
                 Data = query.Select(g => new GenderDto
                 {
                     Id = g.Id,
-                    Name = g.Name
+                    Name = g.Name,
+                    IsActive = g.IsActive
                 })
             };
 

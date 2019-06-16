@@ -27,7 +27,8 @@ namespace EFCommands.Genders
 
             this.Context.Genders.Add(new Gender
             {
-                Name = request.Name
+                Name = request.Name,
+                IsActive = request.IsActive
             });
 
             this.Context.SaveChanges();

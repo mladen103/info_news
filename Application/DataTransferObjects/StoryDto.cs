@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using System.ComponentModel.DataAnnotations;
+using Domain;
 
 namespace Application.DataTransferObjects
 {
@@ -14,7 +15,9 @@ namespace Application.DataTransferObjects
         [Required(ErrorMessage = "This field is required.")]
         [MinLength(20, ErrorMessage = "Story description must have at least 20 characters.")]
         public string Description { get; set; }
+        [Required]
+        public Picture Picture { get; set; }
 
-        public ICollection<JournalistDto> Journalists { get; set; }
+        public IEnumerable<JournalistDto> Journalists { get; set; }
     }
 }

@@ -19,4 +19,9 @@
     <ProjectReference Include="..\EFCommands\EFCommands.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

@@ -52,7 +52,8 @@ namespace EFCommands.Logs
                 Data = query.Select(l => new LogDto
                 {
                     Id = l.Id,
-                    Description = l.Description
+                    Description = l.Description,
+                    IsActive = l.IsActive
                 })
             };
 
