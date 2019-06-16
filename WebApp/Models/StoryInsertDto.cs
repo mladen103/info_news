@@ -10,6 +10,7 @@ namespace WebApp.Models
 {
     public class StoryInsertDto
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "This field is required.")]
         [MinLength(6, ErrorMessage = "Story name must have at least 6 characters.")]
         public string Name { get; set; }

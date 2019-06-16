@@ -120,7 +120,20 @@ namespace WebApp.Controllers
         // GET: Stories/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var story = this.getStoryCommand.Execute(id);
+            StoryInsertDto storyInsertDto = new StoryInsertDto
+            {
+                CategoryId = story.CategoryId,
+                Description = story.Description,
+                IsActive = story.IsActive,
+                Name = story.Name,
+                Journalists = story.Journalists.Select(j => j.Id)
+            };
+
+            ViewBag.Journalists = this.getJournalistsCommand.Execute(new JournalistSearch()).Data;
+            ViewBag.Categories = this.getCategoriesCommand.Execute(new CategorySearch()).Data;
+
+            return View(storyInsertDto);
         }
 
         // POST: Stories/Edit/5
@@ -138,12 +151,6 @@ namespace WebApp.Controllers
             {
                 return View();
             }
-        }
-
-        // GET: Stories/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         // POST: Stories/Delete/5

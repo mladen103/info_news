@@ -26,6 +26,7 @@ namespace EFCommands.Stories
                 .Where(j => j.StoryId == request)
                 .Select(j => new JournalistDto
                 {
+                    Id = j.Journalist.Id,
                     FirstName = j.Journalist.FirstName,
                     LastName = j.Journalist.LastName
                 }).AsQueryable();
@@ -42,7 +43,8 @@ namespace EFCommands.Stories
                 Description = story.Description,
                 IsActive = story.IsActive,
                 PicturePath = story.PicturePath,
-                Journalists = journalists.ToList()
+                Journalists = journalists.ToList(),
+                CategoryId = story.CategoryId
             };
         }
     }
