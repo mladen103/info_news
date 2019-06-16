@@ -31,48 +31,47 @@
     int k = 0;
 }
 
-@*+1?*@
-@for (var i = 0; i < Model.Data.Count() + 1; i += 3)
+
+@for (var i = 0; i < Model.Data.Count() +1; i += 3)
 {
-    <div class="row">
+<div class="row">
+    @*+1?*@
+    @for (int j = 0; j < Math.Min(Model.Data.Count() - k, 3); j++)
+    {
+        var item = Model.Data.ToList()[k];
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <img width="100px" height="200px" src="/uploads/@Html.DisplayFor(modelItem => item.PicturePath)" alt="@Html.DisplayFor(modelItem => item.Name)" style="width:100%">
+                <div class="caption">
+                    <h3>Name: @Html.DisplayFor(modelItem => item.Name)</h3>
+                    <p>Active: @Html.DisplayFor(modelItem => item.IsActive)</p>
+                    <hr />
+                    <p>
+                        Journalists:
+
+                        @foreach (var journalist in item.Journalists)
+                        {
+                            @journalist.LastName <text> </text> @journalist.FirstName @:|
+                        }
 
 
-        @for (int j = 0; j < Math.Min(Model.Data.Count() - k, 3); j++)
-        {
-            var item = Model.Data.ToList()[k];
-            <div class="col-md-4">
-                <div class="thumbnail">
-                    <img width="100px" height="200px" src="/uploads/@Html.DisplayFor(modelItem => item.PicturePath)" alt="@Html.DisplayFor(modelItem => item.Name)" style="width:100%">
-                    <div class="caption">
-                        <h3>Name: @Html.DisplayFor(modelItem => item.Name)</h3>
-                        <p>Active: @Html.DisplayFor(modelItem => item.IsActive)</p>
-                        <hr />
-                        <p>
-                            Journalists:
+                    </p>
 
-                            @foreach (var journalist in item.Journalists)
-                            {
-                                @journalist.LastName <text> </text> @journalist.FirstName @:|
-                            }
+                    <hr />
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    <hr />
+                    <form method="post" asp-action="delete" asp-route-id="@item.Id">
+                        <input type="submit" value="Delete" />
+                    </form>
+                    <hr />
 
-
-                        </p>
-
-                        <hr />
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        <hr />
-                        <form method="post" asp-action="delete" asp-route-id="@item.Id">
-                            <input type="submit" value="Delete" />
-                        </form>
-                        <hr />
-
-                    </div>
                 </div>
             </div>
-            k++;
-        }
-    </div>
+        </div>
+        k++;
+    }
+</div>
 }
 
 

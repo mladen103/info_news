@@ -204,7 +204,7 @@ namespace WebApp.Controllers
             try
             {
                 // TODO: Add delete logic here
-
+                this.deleteStoryCommand.Execute(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
