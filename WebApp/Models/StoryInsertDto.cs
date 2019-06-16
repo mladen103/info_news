@@ -21,6 +21,9 @@ namespace WebApp.Models
         [Required]
         public bool IsActive { get; set; }
         [Required]
+        public int CategoryId { get; set; }
+
+        [Required]
         public IEnumerable<int> Journalists { get; set; }
     }
 }

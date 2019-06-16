@@ -15,6 +15,10 @@ using EFCommands;
 using EFCommands.Journalists;
 using EFCommands.Stories;
 using Application.Commands.Stories;
+using EFCommands.Categories;
+using Application.Commands.Categories;
+using Application.Commands.StoriesJournalists;
+using EFCommands.StoriesJournalists;
 
 namespace WebApp
 {
@@ -54,6 +58,9 @@ namespace WebApp
             services.AddTransient<IDeleteStoryCommand, EfDeleteStoryCommand>();
 
             services.AddTransient<IGetJournalistsCommand, EfGetJournalistsCommand>();
+            services.AddTransient<IGetJournalistCommand, EfGetJournalistCommand>();
+            
+            services.AddTransient<IGetCategoriesCommand, EfGetCategoriesCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

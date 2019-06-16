@@ -73,8 +73,10 @@ namespace WebApp.Controllers
                     this.insertJournalistCommand.Execute(journalist);
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    string x = e.Message;
+
                     TempData["error"] = "An error has occured.";
                 }
 

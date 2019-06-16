@@ -17,7 +17,9 @@ namespace Application.DataTransferObjects
         public string Description { get; set; }
         [Required]
         public string PicturePath { get; set; }
-
+        [Required]
+        public int CategoryId { get; set; }
+        
         public IEnumerable<JournalistDto> Journalists { get; set; }
     }
 }

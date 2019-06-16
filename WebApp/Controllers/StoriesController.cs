@@ -11,6 +11,9 @@ using Application.DataTransferObjects;
 using System.IO;
 using Application.Commands.Journalists;
 using WebApp.Models;
+using Application.Helpers;
+using Application.Commands.Categories;
+using Application.Commands.StoriesJournalists;
 
 namespace WebApp.Controllers
 {
@@ -22,17 +25,20 @@ namespace WebApp.Controllers
         private readonly IGetStoryCommand getStoryCommand;
         private readonly IUpdateStoryCommand updateStoryCommand;
 
-        private readonly IGetJournalistsCommand getJournalists;
-
-
-        public StoriesController(IInsertStoryCommand insertStoryCommand, IGetStoriesCommand getStoriesCommand, IDeleteStoryCommand deleteStoryCommand, IGetStoryCommand getStoryCommand, IUpdateStoryCommand updateStoryCommand, IGetJournalistsCommand getJournalists)
+        private readonly IGetJournalistsCommand getJournalistsCommand;
+        private readonly IGetJournalistCommand getJournalistCommand;
+        private readonly IGetCategoriesCommand getCategoriesCommand;
+        
+        public StoriesController(IInsertStoryCommand insertStoryCommand, IGetStoriesCommand getStoriesCommand, IDeleteStoryCommand deleteStoryCommand, IGetStoryCommand getStoryCommand, IUpdateStoryCommand updateStoryCommand, IGetJournalistsCommand getJournalistsCommand, IGetCategoriesCommand getCategoriesCommand, IGetJournalistCommand getJournalistCommand)
         {
             this.insertStoryCommand = insertStoryCommand;
             this.getStoriesCommand = getStoriesCommand;
             this.deleteStoryCommand = deleteStoryCommand;
             this.getStoryCommand = getStoryCommand;
             this.updateStoryCommand = updateStoryCommand;
-            this.getJournalists = getJournalists;
+            this.getJournalistsCommand = getJournalistsCommand;
+            this.getCategoriesCommand = getCategoriesCommand;
+            this.getJournalistCommand = getJournalistCommand;
         }
 
         // GET: Stories
@@ -52,7 +58,9 @@ namespace WebApp.Controllers
         // GET: Stories/Create
         public ActionResult Create()
         {
-            ViewBag.Journalists = this.getJournalists.Execute(new JournalistSearch()).Data;
+            ViewBag.Journalists = this.getJournalistsCommand.Execute(new JournalistSearch()).Data;
+            ViewBag.Categories = this.getCategoriesCommand.Execute(new CategorySearch()).Data;
+
             return View();
         }
 
@@ -61,22 +69,52 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([FromForm]StoryInsertDto story)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var extension = Path.GetExtension(story.Picture.FileName);
 
-            var newFileName = Guid.NewGuid().ToString() + "_" + story.Picture.FileName;
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
-            story.Picture.CopyTo(new FileStream(filePath, FileMode.Create));
-            
-            StoryDto storyDto = new StoryDto();
-            storyDto.IsActive = story.IsActive;
-            storyDto.Name = story.Name;
-            storyDto.Description = story.Description;
-            storyDto.PicturePath = newFileName;
+            if (!FileUpload.AllowedExtensions.Contains(extension))
+            {
+                return UnprocessableEntity("You must upload image.");
+            }
 
+            try
+            {
+                var newFileName = Guid.NewGuid().ToString() + "_" + story.Picture.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+                story.Picture.CopyTo(new FileStream(filePath, FileMode.Create));
 
-            //this.insertStoryCommand.Execute(story);
+                List<JournalistDto> journalists = new List<JournalistDto>();
+                foreach(var journalistId in story.Journalists)
+                {
+                    journalists.Add(this.getJournalistCommand.Execute(journalistId));
+                }
+
+                StoryDto storyDto = new StoryDto {
+                    IsActive = story.IsActive,
+                    Name = story.Name,
+                    Description = story.Description,
+                    PicturePath = newFileName,
+                    CategoryId = story.CategoryId,
+                    Journalists = journalists
+                };
+                
+                this.insertStoryCommand.Execute(storyDto);
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                string asd = e.Message;
+                TempData["error"] = "An error has occured.";
+            }
 
             return View();
+
+
         }
 
         // GET: Stories/Edit/5

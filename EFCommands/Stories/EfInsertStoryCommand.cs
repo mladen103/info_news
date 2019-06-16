@@ -19,14 +19,28 @@ namespace EFCommands.Stories
 
         public void Execute(StoryDto request)
         {
-            
-            this.Context.Stories.Add(new Story
+
+            var story = new Story
             {
                 Name = request.Name,
                 Description = request.Description,
                 IsActive = request.IsActive,
+                CategoryId = request.CategoryId,
                 PicturePath = request.PicturePath
-            });
+            };
+
+            this.Context.Stories.Add(story);
+            
+            this.Context.SaveChanges();
+            
+            foreach (var item in request.Journalists)
+            {
+                this.Context.StoryJournalist.Add(new StoryJournalist
+                {
+                    JournalistId = item.Id,
+                    StoryId = story.Id
+                });
+            }
 
             this.Context.SaveChanges();
         }
