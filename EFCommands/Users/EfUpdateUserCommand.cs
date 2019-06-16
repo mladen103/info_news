@@ -25,7 +25,12 @@ namespace EFCommands.Users
                 throw new EntityNotFoundException("user");
             if (user.IsDeleted)
                 throw new EntityNotFoundException("user");
-            
+
+            if (!this.Context.Genders.Any(g => g.Id == request.GenderId))
+            {
+                throw new EntityNotFoundException("gender");
+            }
+
             if (user.Email != request.Email)
             {
                 if (this.Context.Users.Any(u => u.Email == request.Email))

@@ -20,7 +20,7 @@ namespace EFCommands.Roles
         public void Execute(RoleDto request)
         {
             if (this.Context.Roles
-                .Where(g => !g.IsDeleted)
+                .Where(r => !r.IsDeleted)
                 .Any(r => r.Name == request.Name))
                 throw new EntityAlreadyExistsException();
 

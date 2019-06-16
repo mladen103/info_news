@@ -31,14 +31,18 @@
     int k = 0;
 }
 
-
-@for (var i = 0; i < Model.Data.Count() +1; i += 3)
+@for (var i = 0; i < Model.Data.Count(); i += 3)
 {
+    int counter = Model.Data.Count() - i >= 3 ? 3 : Model.Data.Count() - i;
+
 <div class="row">
     @*+1?*@
-    @for (int j = 0; j < Math.Min(Model.Data.Count() - k, 3); j++)
+    @for (int j = 0; j < counter; j++)
     {
-        var item = Model.Data.ToList()[k];
+
+        var item = Model.Data.ToList()[k++];
+
+
         <div class="col-md-4">
             <div class="thumbnail">
                 <img width="100px" height="200px" src="/uploads/@Html.DisplayFor(modelItem => item.PicturePath)" alt="@Html.DisplayFor(modelItem => item.Name)" style="width:100%">
@@ -69,10 +73,6 @@
                 </div>
             </div>
         </div>
-        k++;
     }
 </div>
 }
-
-
-<label>@Model.Data.Count()</label>

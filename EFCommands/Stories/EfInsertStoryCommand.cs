@@ -19,6 +19,11 @@ namespace EFCommands.Stories
 
         public void Execute(StoryDto request)
         {
+            if(!this.Context.Categories.Any(c => c.Id == request.CategoryId))
+            {
+                throw new EntityNotFoundException("category");
+            }
+            
             var story = new Story
             {
                 Name = request.Name,
@@ -34,6 +39,11 @@ namespace EFCommands.Stories
             
             foreach (var item in request.Journalists)
             {
+                if(!this.Context.Journalists.Any(j => j.Id == item.Id))
+                {
+                    throw new EntityNotFoundException("journalist");
+                }
+
                 this.Context.StoryJournalist.Add(new StoryJournalist
                 {
                     JournalistId = item.Id,

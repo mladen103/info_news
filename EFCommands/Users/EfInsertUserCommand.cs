@@ -28,6 +28,11 @@ namespace EFCommands.Users
                 .Any(u => u.Email == request.Email))
                 throw new EntityAlreadyExistsException();
 
+            if (!this.Context.Genders.Any(g => g.Id == request.GenderId))
+            {
+                throw new EntityNotFoundException("gender");
+            }
+
             this.Context.Users.Add(new User
             {
                 Email = request.Email,
@@ -40,8 +45,8 @@ namespace EFCommands.Users
             this.Context.SaveChanges();
 
             this.emailSender.Subject = "Info news";
-            this.emailSender.Body = $"Dodati ste od strane administratora. Ulazni parametri su <br/> Email: {request.Email} <br/>Lozinka {request.Password}";
-            this.emailSender.ToEmail = "djomla544@gmail.com";
+            this.emailSender.Body = $"You have been added by administrator. Input parameters are <br/> Email: {request.Email} <br/>Password {request.Password}";
+            this.emailSender.ToEmail = request.Email;
             this.emailSender.Send();
         }
     }
