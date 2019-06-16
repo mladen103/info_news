@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using Domain;
 
-namespace Application.DataTransferObjects
+namespace WebApp.Models
 {
-    public class StoryDto : BaseDto
+    public class StoryInsertDto
     {
         [Required(ErrorMessage = "This field is required.")]
         [MinLength(6, ErrorMessage = "Story name must have at least 6 characters.")]
@@ -16,8 +17,10 @@ namespace Application.DataTransferObjects
         [MinLength(20, ErrorMessage = "Story description must have at least 20 characters.")]
         public string Description { get; set; }
         [Required]
-        public string PicturePath { get; set; }
-
-        public IEnumerable<JournalistDto> Journalists { get; set; }
+        public IFormFile Picture { get; set; }
+        [Required]
+        public bool IsActive { get; set; }
+        [Required]
+        public IEnumerable<int> Journalists { get; set; }
     }
 }

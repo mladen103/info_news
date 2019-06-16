@@ -9,6 +9,8 @@ using Application.Commands.Stories;
 using Application.Searches;
 using Application.DataTransferObjects;
 using System.IO;
+using Application.Commands.Journalists;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -20,13 +22,17 @@ namespace WebApp.Controllers
         private readonly IGetStoryCommand getStoryCommand;
         private readonly IUpdateStoryCommand updateStoryCommand;
 
-        public StoriesController(IInsertStoryCommand insertStoryCommand, IGetStoriesCommand getStoriesCommand, IDeleteStoryCommand deleteStoryCommand, IGetStoryCommand getStoryCommand, IUpdateStoryCommand updateStoryCommand)
+        private readonly IGetJournalistsCommand getJournalists;
+
+
+        public StoriesController(IInsertStoryCommand insertStoryCommand, IGetStoriesCommand getStoriesCommand, IDeleteStoryCommand deleteStoryCommand, IGetStoryCommand getStoryCommand, IUpdateStoryCommand updateStoryCommand, IGetJournalistsCommand getJournalists)
         {
             this.insertStoryCommand = insertStoryCommand;
             this.getStoriesCommand = getStoriesCommand;
             this.deleteStoryCommand = deleteStoryCommand;
             this.getStoryCommand = getStoryCommand;
             this.updateStoryCommand = updateStoryCommand;
+            this.getJournalists = getJournalists;
         }
 
         // GET: Stories
@@ -46,28 +52,29 @@ namespace WebApp.Controllers
         // GET: Stories/Create
         public ActionResult Create()
         {
+            ViewBag.Journalists = this.getJournalists.Execute(new JournalistSearch()).Data;
             return View();
         }
 
         // POST: Stories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(StoryDto story)
+        public ActionResult Create([FromForm]StoryInsertDto story)
         {
-            var fajl = Request.Form.Files["fajl"];
-            var ext = Path.GetExtension(fajl.ToString()); //.gif
+            var extension = Path.GetExtension(story.Picture.FileName);
 
-            var newFileName = Guid.NewGuid().ToString() + "_" + fajl.FileName;
+            var newFileName = Guid.NewGuid().ToString() + "_" + story.Picture.FileName;
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
-            fajl.CopyTo(new FileStream(filePath, FileMode.Create));
-
-            PictureDto p = new PictureDto();
-            p.Name = story.Name;
-            p.Path = filePath;
+            story.Picture.CopyTo(new FileStream(filePath, FileMode.Create));
             
-            story.Picture = new Domain.Picture { Name = p.Name, Path = p.Path };
+            StoryDto storyDto = new StoryDto();
+            storyDto.IsActive = story.IsActive;
+            storyDto.Name = story.Name;
+            storyDto.Description = story.Description;
+            storyDto.PicturePath = newFileName;
 
-            this.insertStoryCommand.Execute(story);
+
+            //this.insertStoryCommand.Execute(story);
 
             return View();
         }

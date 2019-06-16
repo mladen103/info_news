@@ -64,7 +64,7 @@ namespace EFCommands.Stories
                     Name = s.Name,
                     Description = s.Description,
                     IsActive = s.IsActive,
-                    Picture = s.Picture,
+                    PicturePath = s.PicturePath,
                     Journalists = s.StoryJournalists.Select(j => new JournalistDto
                     {
                         FirstName = j.Journalist.FirstName,

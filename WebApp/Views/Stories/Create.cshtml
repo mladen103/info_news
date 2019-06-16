@@ -1,12 +1,22 @@
-﻿@model Application.DataTransferObjects.StoryDto
+﻿@model StoryInsertDto
 
 @{
     ViewData["Title"] = "Create";
 }
 
+<!-- this style has only a few selectors, so it is consequently placed here -->
+<style>
+    input[type="file"] {
+        padding: 3px;
+    }
+    select[multiple]{
+        width: 250px;
+    }
+</style>
+
 <h1>Create</h1>
 
-<h4>StoryDto</h4>
+<h4>Story</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,19 +29,32 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea cols="30" rows="5" asp-for="Description" class="form-control" ></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    <input class="form-check-input" checked asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
             </div>
             <div class="form-group">
                 <label asp-for="Picture" class="control-label"></label>
-                <input name="fajl" asp-for="Picture" class="form-control" type="file" />
+                <input name="Picture" asp-for="Picture" class="form-control" type="file" />
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="Journalists" class="control-label"></label>
+                    <select asp-for="Journalists" name="Journalists" multiple>
+                        @foreach(var journalist in ViewBag.Journalists)
+                        {
+                            <option value="@journalist.Id">@journalist.FirstName</option>
+                        }
+                    </select>
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

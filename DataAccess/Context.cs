@@ -15,10 +15,12 @@ namespace DataAccess
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Journalist> Journalists { get; set; }
         public DbSet<Log> Logs { get; set; }
-        public DbSet<Picture> Pictures { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Story> Stories { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public DbSet<StoryJournalist> StoryJournalist { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,16 +33,11 @@ namespace DataAccess
             modelBuilder.ApplyConfiguration(new GenderConfiguration());
             modelBuilder.ApplyConfiguration(new JournalistConfiguration());
             modelBuilder.ApplyConfiguration(new LogConfiguration());
-            modelBuilder.ApplyConfiguration(new PictureConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new StoryConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new StoryJournalistConfiguration());
-
-
-            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-
-
+            
         }
     }
 }

@@ -25,7 +25,7 @@ namespace EFCommands.Stories
                 Name = request.Name,
                 Description = request.Description,
                 IsActive = request.IsActive,
-                Picture = request.Picture
+                PicturePath = request.PicturePath
             });
 
             this.Context.SaveChanges();

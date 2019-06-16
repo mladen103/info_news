@@ -53,6 +53,7 @@ namespace WebApp
             services.AddTransient<IGetStoryCommand, EfGetStoryCommand>();
             services.AddTransient<IDeleteStoryCommand, EfDeleteStoryCommand>();
 
+            services.AddTransient<IGetJournalistsCommand, EfGetJournalistsCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

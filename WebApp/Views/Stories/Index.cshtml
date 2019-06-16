@@ -8,15 +8,19 @@
     .row {
         display: flex; /* equal height of the children */
     }
-
-    .col {
+    .row .col-md-4 {
+        margin: 10px;
+    }
+    .col-md-4 {
         flex: 1; /* additionally, equal width */
-        padding: 1em;
-        border: solid;
+        padding: 20px;
+        border: 1px solid grey;
+        border-radius: 25px;
+
     }
 </style>
 
-<h1>Index</h1>
+<h1>Stories (i know, gui is awful)</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -27,7 +31,7 @@
     {
         <div class="col-md-4">
             <div class="thumbnail">
-                <img width="100px" height="200px" src="/uploads/@Html.DisplayFor(modelItem => item.Picture.Path)" alt="@Html.DisplayFor(modelItem => item.Picture.Name)" style="width:100%">
+                <img width="100px" height="200px" src="/uploads/@Html.DisplayFor(modelItem => item.PicturePath)" alt="@Html.DisplayFor(modelItem => item.Name)" style="width:100%">
                 <div class="caption">
                     <h3>Name: @Html.DisplayFor(modelItem => item.Name)</h3>
                     <p>Active: @Html.DisplayFor(modelItem => item.IsActive)</p>
@@ -46,6 +50,7 @@
                     <hr />
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    <hr />
                     <form method="post" asp-action="delete" asp-route-id="@item.Id">
                         <input type="submit" value="Delete" />
                     </form>

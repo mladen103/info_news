@@ -14,6 +14,7 @@ namespace DataAccess.Configurations
         {
             builder.Property(s => s.Name).IsRequired().HasMaxLength(200);
             builder.Property(s => s.Description).IsRequired();
+            builder.Property(s => s.PicturePath).IsRequired();
             builder.Property(s => s.CreatedAt).HasDefaultValueSql("GETDATE()");
             
             builder.HasMany(s => s.StoryJournalists)
