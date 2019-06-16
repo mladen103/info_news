@@ -17,4 +17,11 @@
     <ProjectReference Include="..\EFCommands\EFCommands.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="http://json.schemastore.org/ocelot" /></VisualStudio></ProjectExtensions>
+
 </Project>

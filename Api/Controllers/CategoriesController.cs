@@ -55,9 +55,9 @@ namespace Api.Controllers
                 var category = this.getCategoryCommand.Execute(id);
                 return Ok(category);
             }
-            catch (EntityNotFoundException)
+            catch (EntityNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
             catch(Exception)
             {

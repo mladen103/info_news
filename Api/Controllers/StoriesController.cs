@@ -9,6 +9,10 @@ using Application.Commands.Stories;
 using Application.Exceptions;
 using Application.Searches;
 using Application.DataTransferObjects;
+using System.IO;
+using Api.Models;
+using Application.Helpers;
+using Application.Commands.Journalists;
 
 namespace Api.Controllers
 {
@@ -22,13 +26,16 @@ namespace Api.Controllers
         private readonly IInsertStoryCommand insertStoryCommand;
         private readonly IUpdateStoryCommand updateStoryCommand;
 
-        public StoriesController(IDeleteStoryCommand deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand, IInsertStoryCommand insertStoryCommand, IUpdateStoryCommand updateStoryCommand)
+        private readonly IGetJournalistCommand getJournalistCommand;
+
+        public StoriesController(IDeleteStoryCommand deleteStoryCommand, IGetStoryCommand getStoryCommand, IGetStoriesCommand getStoriesCommand, IInsertStoryCommand insertStoryCommand, IUpdateStoryCommand updateStoryCommand, IGetJournalistCommand getJournalistCommand)
         {
             this.deleteStoryCommand = deleteStoryCommand;
             this.getStoryCommand = getStoryCommand;
             this.getStoriesCommand = getStoriesCommand;
             this.insertStoryCommand = insertStoryCommand;
             this.updateStoryCommand = updateStoryCommand;
+            this.getJournalistCommand = getJournalistCommand;
         }
 
         // GET: api/Stories
@@ -67,20 +74,97 @@ namespace Api.Controllers
 
         // POST: api/Stories
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromForm] StoryInsertDto story)
         {
+            var extension = Path.GetExtension(story.Picture.FileName);
+
+            if (!FileUpload.AllowedExtensions.Contains(extension))
+            {
+                return UnprocessableEntity("You must upload image.");
+            }
+
+            try
+            {
+                var newFileName = Guid.NewGuid().ToString() + "_" + story.Picture.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+                story.Picture.CopyTo(new FileStream(filePath, FileMode.Create));
+
+                List<JournalistDto> journalists = new List<JournalistDto>();
+                foreach (var journalistId in story.Journalists)
+                {
+                    journalists.Add(this.getJournalistCommand.Execute(journalistId));
+                }
+
+                StoryDto storyDto = new StoryDto
+                {
+                    IsActive = story.IsActive,
+                    Name = story.Name,
+                    Description = story.Description,
+                    PicturePath = newFileName,
+                    CategoryId = story.CategoryId,
+                    Journalists = journalists
+                };
+
+                this.insertStoryCommand.Execute(storyDto);
+
+                return StatusCode(201);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            
         }
 
         // PUT: api/Stories/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] StoryDto value)
+        public ActionResult Put(int id, [FromForm] StoryInsertDto story)
         {
+            story.Id = id;
+
             try
             {
-                value.Id = id;
-                this.updateStoryCommand.Execute(value);
+                string newFileName = null;
+                if (story.Picture != null)
+                {
+                    var extension = Path.GetExtension(story.Picture.FileName);
+
+                    if (!FileUpload.AllowedExtensions.Contains(extension))
+                    {
+                        return UnprocessableEntity("You must upload image.");
+                    }
+
+                    newFileName = Guid.NewGuid().ToString() + "_" + story.Picture.FileName;
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+                    story.Picture.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+
+                List<JournalistDto> journalists = new List<JournalistDto>();
+                foreach (var journalistId in story.Journalists)
+                {
+                    journalists.Add(this.getJournalistCommand.Execute(journalistId));
+                }
+
+                StoryDto storyDto = new StoryDto
+                {
+                    Id = story.Id,
+                    IsActive = story.IsActive,
+                    Name = story.Name,
+                    Description = story.Description,
+                    PicturePath = newFileName,
+                    CategoryId = story.CategoryId,
+                    Journalists = journalists
+                };
+
+                this.updateStoryCommand.Execute(storyDto);
                 return NoContent();
             }
+            
             catch (EntityNotFoundException)
             {
                 return NotFound();

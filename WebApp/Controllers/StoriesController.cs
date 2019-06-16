@@ -67,7 +67,7 @@ namespace WebApp.Controllers
         // POST: Stories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([FromForm]StoryInsertDto story)
+        public ActionResult Create([FromForm] StoryInsertDto story)
         {
             if (!ModelState.IsValid)
             {

@@ -9,7 +9,8 @@ namespace Application.DataTransferObjects
     public abstract class BaseDto
     {
         public int Id { get; set; }
-        [Required]
-        public bool IsActive { get; set; }
+
+//        [Required(ErrorMessage = "This field is required.")]
+        public bool IsActive { get; set; } = true;
     }
 }
