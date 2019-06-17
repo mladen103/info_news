@@ -9,6 +9,7 @@ using Application.Commands.Journalists;
 using Application.Exceptions;
 using Application.Searches;
 using Application.DataTransferObjects;
+using Application.Responses;
 
 namespace Api.Controllers
 {
@@ -31,9 +32,14 @@ namespace Api.Controllers
             this.updateJournalistCommand = updateJournalistCommand;
         }
 
+        /// <summary>
+        /// Returns all journalists that match provided query
+        /// </summary>
+        /// <param name="journalistSearch"></param>
+        /// <returns></returns>
         // GET: api/Jorunalists
         [HttpGet]
-        public IActionResult Get([FromQuery] JournalistSearch journalistSearch)
+        public ActionResult<PagedResponse<JournalistDto>> Get([FromQuery] JournalistSearch journalistSearch)
         {
             try
             {
@@ -46,14 +52,19 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns specific journalist based on his/her identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Jorunalists/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<JournalistDto> Get(int id)
         {
             try
             {
-                var category = this.getJournalistCommand.Execute(id);
-                return Ok(category);
+                var journalist = this.getJournalistCommand.Execute(id);
+                return Ok(journalist);
             }
             catch (EntityNotFoundException)
             {
@@ -65,9 +76,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert a new journalist
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST: api/Jorunalists
         [HttpPost]
-        public IActionResult Post([FromBody] JournalistDto value)
+        public ActionResult Post([FromBody] JournalistDto value)
         {
             try
             {
@@ -84,9 +100,15 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing journalist
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // PUT: api/Jorunalists/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] JournalistDto value)
+        public ActionResult Put(int id, [FromBody] JournalistDto value)
         {
             try
             {
@@ -108,9 +130,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete some journalist
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

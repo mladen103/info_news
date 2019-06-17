@@ -9,6 +9,7 @@ using Application.Commands.Logs;
 using Application.Exceptions;
 using Application.Searches;
 using Application.DataTransferObjects;
+using Application.Responses;
 
 namespace Api.Controllers
 {
@@ -31,9 +32,14 @@ namespace Api.Controllers
             this.updateLogCommand = updateLogCommand;
         }
 
+        /// <summary>
+        /// Returns all logs that match provided query
+        /// </summary>
+        /// <param name="logSearch"></param>
+        /// <returns></returns>
         // GET: api/Logs
         [HttpGet]
-        public IActionResult Get([FromQuery] LogSearch logSearch)
+        public ActionResult<PagedResponse<LogDto>> Get([FromQuery] LogSearch logSearch)
         {
             try
             {
@@ -46,14 +52,19 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns specific log based on its identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Logs/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<LogDto> Get(int id)
         {
             try
             {
-                var category = this.getLogCommand.Execute(id);
-                return Ok(category);
+                var log = this.getLogCommand.Execute(id);
+                return Ok(log);
             }
             catch (EntityNotFoundException)
             {
@@ -65,9 +76,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert a new log
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST: api/Logs
         [HttpPost]
-        public IActionResult Post([FromBody] LogDto value)
+        public ActionResult Post([FromBody] LogDto value)
         {
             try
             {
@@ -84,9 +100,15 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing log
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // PUT: api/Logs/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] LogDto value)
+        public ActionResult Put(int id, [FromBody] LogDto value)
         {
             try
             {
@@ -108,9 +130,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete some log
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

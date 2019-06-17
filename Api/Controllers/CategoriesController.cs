@@ -9,6 +9,7 @@ using Application.Commands.Categories;
 using Application.Exceptions;
 using Application.Searches;
 using Application.DataTransferObjects;
+using Application.Responses;
 
 namespace Api.Controllers
 {
@@ -30,10 +31,15 @@ namespace Api.Controllers
             this.insertCategoryCommand = insertCategoryCommand;
             this.updateCategoryCommand = updateCategoryCommand;
         }
-
+        
+        /// <summary>
+        /// Returns all categories that match provided query
+        /// </summary>
+        /// <param name="categorySearch"></param>
+        /// <returns></returns>
         // GET: api/Categories
         [HttpGet]
-        public IActionResult Get([FromQuery] CategorySearch categorySearch)
+        public ActionResult<PagedResponse<CategoryDto>> Get([FromQuery] CategorySearch categorySearch)
         {
             try
             {
@@ -46,9 +52,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns specific category based on its identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Categories/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult<CategoryDto> Get(int id)
         {
             try
             {
@@ -66,6 +77,11 @@ namespace Api.Controllers
 
         }
 
+        /// <summary>
+        /// Insert a new category
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST: api/Categories
         [HttpPost]
         public ActionResult Post([FromBody] CategoryDto value)
@@ -90,9 +106,15 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // PUT: api/Categories/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] CategoryDto value)
+        public ActionResult Put(int id, [FromBody] CategoryDto value)
         {
             try
             {
@@ -116,9 +138,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete some category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

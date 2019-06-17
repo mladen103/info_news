@@ -9,6 +9,7 @@ using Application.Commands.Genders;
 using Application.Exceptions;
 using Application.Searches;
 using Application.DataTransferObjects;
+using Application.Responses;
 
 namespace Api.Controllers
 {
@@ -31,9 +32,14 @@ namespace Api.Controllers
             this.updateGenderCommand = updateGenderCommand;
         }
 
+        /// <summary>
+        /// Returns all genders that match provided query
+        /// </summary>
+        /// <param name="genderSearch"></param>
+        /// <returns></returns>
         // GET: api/Genders
         [HttpGet]
-        public IActionResult Get([FromQuery] GenderSearch genderSearch)
+        public ActionResult<PagedResponse<GenderDto>> Get([FromQuery] GenderSearch genderSearch)
         {
             try
             {
@@ -46,9 +52,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns specific gender based on its identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Genders/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<GenderDto> Get(int id)
         {
             try
             {
@@ -65,9 +76,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert a new gender
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST: api/Genders
         [HttpPost]
-        public IActionResult Post([FromBody] GenderDto value)
+        public ActionResult Post([FromBody] GenderDto value)
         {
             try
             {
@@ -84,9 +100,15 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing gender
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // PUT: api/Genders/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] GenderDto value)
+        public ActionResult Put(int id, [FromBody] GenderDto value)
         {
             try
             {
@@ -108,9 +130,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete some gender
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

@@ -9,6 +9,7 @@ using Application.Commands.Roles;
 using Application.Exceptions;
 using Application.Searches;
 using Application.DataTransferObjects;
+using Application.Responses;
 
 namespace Api.Controllers
 {
@@ -31,9 +32,14 @@ namespace Api.Controllers
             this.updateRoleCommand = updateRoleCommand;
         }
 
+        /// <summary>
+        /// Returns all roles that match provided query
+        /// </summary>
+        /// <param name="roleSearch"></param>
+        /// <returns></returns>
         // GET: api/Roles
         [HttpGet]
-        public IActionResult Get([FromQuery] RoleSearch roleSearch)
+        public ActionResult<PagedResponse<RoleDto>> Get([FromQuery] RoleSearch roleSearch)
         {
             try
             {
@@ -46,9 +52,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns specific role based on its identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Roles/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<RoleDto> Get(int id)
         {
             try
             {
@@ -65,9 +76,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert a new role
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST: api/Roles
         [HttpPost]
-        public IActionResult Post([FromBody] RoleDto value)
+        public ActionResult Post([FromBody] RoleDto value)
         {
             try
             {
@@ -84,9 +100,15 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing role
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // PUT: api/Roles/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] RoleDto value)
+        public ActionResult Put(int id, [FromBody] RoleDto value)
         {
             try
             {
@@ -108,9 +130,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete some role
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

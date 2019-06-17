@@ -13,6 +13,7 @@ using System.IO;
 using Api.Models;
 using Application.Helpers;
 using Application.Commands.Journalists;
+using Application.Responses;
 
 namespace Api.Controllers
 {
@@ -38,9 +39,14 @@ namespace Api.Controllers
             this.getJournalistCommand = getJournalistCommand;
         }
 
+        /// <summary>
+        /// Returns all stories that match provided query
+        /// </summary>
+        /// <param name="storySearch"></param>
+        /// <returns></returns>
         // GET: api/Stories
         [HttpGet]
-        public IActionResult Get([FromQuery] StorySearch storySearch)
+        public ActionResult<PagedResponse<StoryDto>> Get([FromQuery] StorySearch storySearch)
         {
             try
             {
@@ -53,9 +59,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns specific story based on its identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Stories/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<StoryDto> Get(int id)
         {
             try
             {
@@ -72,6 +83,11 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert a new story
+        /// </summary>
+        /// <param name="story"></param>
+        /// <returns></returns>
         // POST: api/Stories
         [HttpPost]
         public ActionResult Post([FromForm] StoryInsertDto story)
@@ -120,6 +136,12 @@ namespace Api.Controllers
             
         }
 
+        /// <summary>
+        /// Update an existing story
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="story"></param>
+        /// <returns></returns>
         // PUT: api/Stories/5
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromForm] StoryInsertDto story)
@@ -179,9 +201,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete some story
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

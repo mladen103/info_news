@@ -9,6 +9,7 @@ using Application.Commands.Users;
 using Application.Exceptions;
 using Application.Searches;
 using Application.DataTransferObjects;
+using Application.Responses;
 
 namespace Api.Controllers
 {
@@ -31,9 +32,14 @@ namespace Api.Controllers
             this.updateUserCommand = updateUserCommand;
         }
 
+        /// <summary>
+        /// Returns all users that match provided query
+        /// </summary>
+        /// <param name="userSearch"></param>
+        /// <returns></returns>
         // GET: api/Users
         [HttpGet]
-        public IActionResult Get([FromQuery] UserSearch userSearch)
+        public ActionResult<PagedResponse<UserGetDto>> Get([FromQuery] UserSearch userSearch)
         {
             try
             {
@@ -46,9 +52,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns specific user based on his identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<UserGetDto> Get(int id)
         {
             try
             {
@@ -65,9 +76,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert a new user
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST: api/Users
         [HttpPost]
-        public IActionResult Post([FromBody] UserInsertDto value)
+        public ActionResult Post([FromBody] UserInsertDto value)
         {
             try
             {
@@ -84,9 +100,15 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UserInsertDto value)
+        public ActionResult Put(int id, [FromBody] UserInsertDto value)
         {
             try
             {
@@ -108,9 +130,14 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete some user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
